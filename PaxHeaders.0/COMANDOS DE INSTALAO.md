@@ -1,0 +1,1 @@
+40 path=🍀COMANDOS DE INSTALAÇÃO.md
