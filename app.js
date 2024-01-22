@@ -1307,7 +1307,21 @@ client.ev.on('groupAdd', async (chat) => {
           const verifiRegistroo = JSON.parse(fs.readFileSync(`./registros/db/dbregistro.json`))
           const jidIgualSender = verifiRegistroo.some(usuario => usuario.jid === sender);
           const isDigno = verifiRegistroo.some(objeto => objeto.jid === sender);
+          const lerBv = JSON.parse(fs.readFileSync('./registros/db/grupos.json'))
+          const grupoRegi = from
           
+          
+          function gerarKey() {
+  const caracters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let key = '';
+
+  for (let i = 0; i < 6; i++) {
+    const indice = Math.floor(Math.random() * caracters.length);
+    key += caracters.charAt(indice);
+  }
+
+  return key;
+}
           
             
         switch (command) {
@@ -1774,6 +1788,44 @@ const confirmarRegistro = `*Antes de te registrar confirme as informações:*\n\
     
     fs.writeFileSync(`./sinais.json`, JSON.stringify(textdb))
     await client.sendMessage(from, {text: `Mensagem de registro alterada com sucesso!!`}, {quoted: info})
+    break
+    
+    
+    case "rgrupo":
+        if(!q) return reply(`use *on* para criar o cadastro e *off* para excluir o cadastro`)
+        if(q === "on") {
+        if(grupoRegi in lerBv.grupos) {
+        await client.sendMessage(from, {text: `ja ativado`})
+        } else {
+        const keyGp = gerarKey()
+            let novoGp = from
+            lerBv.grupos[novoGp] = {
+            key: keyGp,
+            msgBv: "msgBv",
+            msgS: "msgS",
+            msgH: "msgH"
+            }
+            
+            fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2), 'utf-8')
+            delay(2000)
+            let keyy = lerBv.grupos[from].key
+            
+            await client.sendMessage(from, {text: `Grupo cadastrado, a sua key para gerenciar o grupo foi mandada no seu pv!!`}, {quoted: info})
+            delay(3000)
+            await client.sendMessage(sender, {text: `Aqui está a sua key: ${keyy}`}, {quoted: info})
+        }
+        }
+        if(q === "off") {
+            if(lerBv.grupos[from]) {
+                delete lerBv.grupos[from]
+                delay(2000)
+                fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2), 'utf-8')
+                await client.sendMessage(from, {text: `Cadastro excluido com sucesso!!`})
+                
+            } else {
+            client.sendMessage(from, {text: `Nenhum grupo cadastrado com essa key.`})
+            }
+        }
     break
 
           case 'totag':
