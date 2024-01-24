@@ -2,7 +2,7 @@
 try {
   // Seu código aqui
   const { default: makeWASocket,
-  makeCacheableSignalKeyStore, downloadContentFromMessage, useMultiFileAuthState, makeInMemoryStore, DisconnectReason, WAGroupMetadata, relayWAMessage, MediaPathMap, mentionedJid, processTime, MediaType, Browser, MessageType, Presence, Mimetype, Browsers, delay, fetchLatestBaileysVersion, MessageRetryMap, extractGroupMetadata, generateWAMessageFromContent, proto } = require('@whiskeysockets/baileys');
+    makeCacheableSignalKeyStore, downloadContentFromMessage, useMultiFileAuthState, makeInMemoryStore, DisconnectReason, WAGroupMetadata, relayWAMessage, MediaPathMap, mentionedJid, processTime, MediaType, Browser, MessageType, Presence, Mimetype, Browsers, delay, fetchLatestBaileysVersion, MessageRetryMap, extractGroupMetadata, generateWAMessageFromContent, proto } = require('@whiskeysockets/baileys');
   ///////////////////////////////////////////////
   //PEDEM DE MUDELE
   ///////////////////////////////////////////////
@@ -30,7 +30,7 @@ try {
   const linkNeroV1 = JSON.parse(fs.readFileSync("./functions/fotos/logo.json"))
   const infoBot = JSON.parse(fs.readFileSync('./config.json'));
   ///////////////////////////////////////////////
-  
+
   //  "https://telegra.ph/file/899eeb68fbedb64c2d926.jpg"
   const { palavras } = require('./functions/conselhos.js');
   const { ytv } = require('./functions/y2mate.js')
@@ -72,13 +72,13 @@ try {
   const { TextoDoSaiu } = require("./info/TextoDoBemvindo.js")
   const { Aki } = require('aki-api')
   const { Error } = JSON.parse(fs.readFileSync('./functions/Erro.json'))
-  
-  
+
+
 
   ///////////////////////////////////////////////
 
   //====== defina ======\\
-  
+
   var girastamp = speed()
   var latensi = speed() - girastamp;
 
@@ -97,12 +97,15 @@ try {
   logo = linkNeroV1.logo
 
   var numeroDono = infoBot.numeroDono
-  
+
 
   ///////////////////////////////////////////////
   const groupIdWelcomed = []
   const welcome_group = JSON.parse(fs.readFileSync('./functions/welcomegp.json'));
   const antipv = JSON.parse(fs.readFileSync('./functions/antipv.json'))
+  const lerUser = JSON.parse(fs.readFileSync('./registros/db/users.json'))
+  
+        
   const welkom = JSON.parse(fs.readFileSync('./functions/welkom.json'));
   const time = moment.tz('America/Sao_Paulo').format('HH:mm:ss');
 
@@ -111,7 +114,7 @@ try {
   const date = moment.tz('America/Sao_Paulo').format('DD/MM/YY');
 
   const welkom2 = JSON.parse(fs.readFileSync('./functions/welkom.json'));
-    const welkomPv = JSON.parse(fs.readFileSync('./welkomPv.json'));
+  const welkomPv = JSON.parse(fs.readFileSync('./welkomPv.json'));
   const welcome_group2 = JSON.parse(fs.readFileSync('./functions/welcomegp.json'));
   const color = (text, color) => {
     return !color ? chalk.green(text) : chalk.keyword(color)(text)
@@ -124,8 +127,8 @@ try {
   const usePairingCode = process.argv.includes('--use-pairing-code')
   const msgRetryCounterCache = new NodeCache();
   const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
+    input: process.stdin,
+    output: process.stdout,
   });
   async function starts() {
     const { state, saveCreds } = await useMultiFileAuthState('./WhatsApp-Conexao')
@@ -139,81 +142,81 @@ try {
     })
 
     const client = makeWASocket({
-        version,
-        logger: P({ level: "silent" }),
-        usePairingCode,
-        mobile: false,
-        browser: ["FireFox (linux)"],
-        auth: state,
-        msgRetryCounterCache,
-        defaultQueryTimeoutMs: undefined,
-        patchMessageBeforeSending: (message) => {
-            const requiresPatch = !!(message.buttonsMessage || message.listMessage);
-            if (requiresPatch) {
-                message = {
-                    viewOnceMessage: {
-                        message: {
-                            messageContextInfo: {
-                                deviceListMetadataVersion: 2,
-                                deviceListMetadata: {},
-                            }, ...message
-                        }
-                    }
-                }
+      version,
+      logger: P({ level: "silent" }),
+      usePairingCode,
+      mobile: false,
+      browser: ["FireFox (linux)"],
+      auth: state,
+      msgRetryCounterCache,
+      defaultQueryTimeoutMs: undefined,
+      patchMessageBeforeSending: (message) => {
+        const requiresPatch = !!(message.buttonsMessage || message.listMessage);
+        if (requiresPatch) {
+          message = {
+            viewOnceMessage: {
+              message: {
+                messageContextInfo: {
+                  deviceListMetadataVersion: 2,
+                  deviceListMetadata: {},
+                }, ...message
+              }
             }
-            return message;
+          }
         }
+        return message;
+      }
     });
 
     //console.log(banner.string)
     console.log('[ Clover 6.0 online ]')
-    
-function limparNumero(entrada) {
-    const numeros = entrada.replace(/\D/g, '');
-    const numeroLimpo = numeros.replace(/^(\d{2})(9)?(\d{8,9})$/, '$1$3');
-    return numeroLimpo;
-}
+
+    function limparNumero(entrada) {
+      const numeros = entrada.replace(/\D/g, '');
+      const numeroLimpo = numeros.replace(/^(\d{2})(9)?(\d{8,9})$/, '$1$3');
+      return numeroLimpo;
+    }
 
     if (!client.authState.creds.registered) {
-        const phoneNumber = await question(`\nDigite seu número do WhatsApp:\nEx: ${clc.bold("+55 75 9865-6060")}\n `);
-const numeroLimpo = limparNumero(phoneNumber);
-        const code = await client.requestPairingCode(numeroLimpo);
-        console.log(`Seu código de conexão é: \n\n ${clc.bold(code)}\n~>`);
-        console.log(`Abra seu WhatsApp, vá em ${clc.bold("Aparelhos Conectados > Conectar um novo Aparelho > Conectar usando Número.")}`)
+      const phoneNumber = await question(`\nDigite seu número do WhatsApp:\nEx: ${clc.bold("+55 75 9865-6060")}\n `);
+      const numeroLimpo = limparNumero(phoneNumber);
+      const code = await client.requestPairingCode(numeroLimpo);
+      console.log(`Seu código de conexão é: \n\n ${clc.bold(code)}\n~>`);
+      console.log(`Abra seu WhatsApp, vá em ${clc.bold("Aparelhos Conectados > Conectar um novo Aparelho > Conectar usando Número.")}`)
     }
-    
-    
+
+
 
     store.bind(client.ev)
-    
+
 
     client.ev.on("creds.update", saveCreds)
     store.bind(client.ev)
     client.ev.on("chats.set", () => {
-        console.log("Tem conversas", store.chats.all())
+      console.log("Tem conversas", store.chats.all())
     })
     client.ev.on("contacts.set", () => {
-        console.log("Tem contatos", Object.values(store.contacts))
+      console.log("Tem contatos", Object.values(store.contacts))
     })
     // CONEXÃO ATUALIZAÇÃO 
     client.ev.on("connection.update", (update) => {
-        const { connection, lastDisconnect } = update
-        if (connection === "close") {
-        
-            const shouldReconnect = (lastDisconnect.error)?.output?.statusCode !== DisconnectReason.loggedOut
-            console.log("Conexão fechada devido a", lastDisconnect.error, "Tentando reconectar...", shouldReconnect);
-            if (shouldReconnect) {
-                starts()
-            }
+      const { connection, lastDisconnect } = update
+      if (connection === "close") {
 
-        } 
-       else if (update.connection == "open" || update.receivedPendingNotifications == "true") {
-      client.updateProfileStatus(`Online!!`)
-    } 
-    else if (connection === "open") {
-        
-            console.log(chalk.keyword("red")("Conectado com sucesso!"));
+        const shouldReconnect = (lastDisconnect.error)?.output?.statusCode !== DisconnectReason.loggedOut
+        console.log("Conexão fechada devido a", lastDisconnect.error, "Tentando reconectar...", shouldReconnect);
+        if (shouldReconnect) {
+          starts()
         }
+
+      }
+      else if (update.connection == "open" || update.receivedPendingNotifications == "true") {
+        client.updateProfileStatus(`Online!!`)
+      }
+      else if (connection === "open") {
+
+        console.log(chalk.keyword("red")("Conectado com sucesso!"));
+      }
     })
     // Evento de mensagem
 
@@ -226,15 +229,15 @@ const numeroLimpo = limparNumero(phoneNumber);
         return;
       }
     }
-    
-    
+
+
 
     ///////////////////////////////////////////////
     //FUNÇÃO DO BEM VINDO//
     ///////////////////////////////////////////////
-    
-    
- 
+
+
+
     const time = moment.tz('America/Sao_Paulo').format('HH:mm:ss');
 
     const hora = moment.tz('America/Sao_Paulo').format('HH:mm:ss');
@@ -271,9 +274,10 @@ const numeroLimpo = limparNumero(phoneNumber);
             if (anu.action == 'add') {
               num = anu.participants[0]
 
-              
-                
-              await client.sendMessage(anu.id, { text: `🍀🎰 *OLÁ APOSTADORES*🎰🍀
+
+
+              await client.sendMessage(anu.id, {
+                text: `🍀🎰 *OLÁ APOSTADORES*🎰🍀
 
 *SEJAM TODOS BEM VINDOS (AS)*
 
@@ -296,19 +300,20 @@ const numeroLimpo = limparNumero(phoneNumber);
 https://go.aff.elisa.bet/boaobnxy`
 
               })
-              
+
             }
           }
         } catch (err) {
           console.log(err)
         }
 
-      } else if(welkomPv.includes(ale.id)) {
-      
-      if (anu.action == 'add') {
-           delay(3000)
-           num = anu.participants[0]
-              await client.sendMessage(num, {text: `*SEJA BEM VINDO AO GRUPO DE SINAIS VIP🎰🔥*
+      } else if (welkomPv.includes(ale.id)) {
+
+        if (anu.action == 'add') {
+          delay(3000)
+          num = anu.participants[0]
+          await client.sendMessage(num, {
+            text: `*SEJA BEM VINDO AO GRUPO DE SINAIS VIP🎰🔥*
 
 Eu sou a Stheffany bot, inteligência artificial criada para te ajudar no seu dia a dia nas apostas, otimizando seu tempo e melhorando ainda mais o seu modo de apostar!🎰
 
@@ -321,10 +326,10 @@ Você pode executar alguns comandos dentro do grupo, tais esses como;
 Qualquer dúvida ou sugestão entre em contato direto com meu criador!👇🏻
 wa.me/5522998550606`
 
-})
-delay(2000)
-await client.sendMessage(num, {text: `Para sua segurança e para não ocorrer erros, só será possível utilizar o bot após o registro.\n\nUse *${prefix}registrar* para mais informações e para realizar seu registro!!\n\nApenas use o pv do bot para o registro!! os comandos só serão usados no grupo!!`})
-      }
+          })
+          delay(2000)
+          await client.sendMessage(num, { text: `Para sua segurança e para não ocorrer erros, só será possível utilizar o bot após o registro.\n\nUse *${prefix}registrar* para mais informações e para realizar seu registro!!\n\nApenas use o pv do bot para o registro!! os comandos só serão usados no grupo!!` })
+        }
       }
 
     })
@@ -362,13 +367,13 @@ await client.sendMessage(num, {text: `Para sua segurança e para não ocorrer er
         ///////////////////////////////////////////////
         //**************[ functions ]**************//
         ///////////////////////////////////////////////
-        
+
         //ANTIS
         const antilinkhard = JSON.parse(fs.readFileSync('./functions/antilink.json'))
         const antilinkgp = JSON.parse(fs.readFileSync('./functions/antilink.json'))
-        
-        
-        
+
+
+
 
         ////////
 
@@ -384,7 +389,7 @@ await client.sendMessage(num, {text: `Para sua segurança e para não ocorrer er
         var body = info.message?.conversation || info.message?.viewOnceMessageV2?.message?.imageMessage?.caption || info.message?.viewOnceMessageV2?.message?.videoMessage?.caption || info.message?.imageMessage?.caption || info.message?.videoMessage?.caption || info.message?.extendedTextMessage?.text || info.message?.viewOnceMessage?.message?.videoMessage?.caption || info.message?.viewOnceMessage?.message?.imageMessage?.caption || info.message?.documentWithCaptionMessage?.message?.documentMessage?.caption || info.message?.buttonsMessage?.imageMessage?.caption || info.message?.buttonsResponseMessage?.selectedButtonId || info.message?.listResponseMessage?.singleSelectReply?.selectedRowId || info.message?.templateButtonReplyMessage?.selectedId || info?.text || ""
 
         const budy = (type === 'conversation') ? info.message.conversation : (type === 'extendedTextMessage') ? info.message.extendedTextMessage.text : ''
-        
+
         const reply = (text) => {
           client.sendMessage(from, { text: text }, { quoted: info })
         }
@@ -394,12 +399,14 @@ await client.sendMessage(num, {text: `Para sua segurança e para não ocorrer er
 
         const menc_prt = info.message?.extendedTextMessage?.contextInfo?.participant
         var pes = (type === 'conversation' && info.message.conversation) ? info.message.conversation : (type == 'imageMessage') && info.message.imageMessage.caption ? info.message.imageMessage.caption : (type == 'videoMessage') && info.message.videoMessage.caption ? info.message.videoMessage.caption : (type == 'extendedTextMessage') && info.message.extendedTextMessage.text ? info.message.extendedTextMessage.text : ''
-        
+
         const quoted = info.quoted ? info.quoted : info
         ///////////////////////////////////////////////
         //********IS DO ANTIPV***********\\
         ///////////////////////////////////////////////
         const isAntiPv = (antipv.indexOf('Ativado') >= 0) ? true : false
+        
+
         ///////////////////////////////////////////////
         //*****functions DO ANAGRAMA E LEVEL*******
         ///////////////////////////////////////////////
@@ -421,6 +428,7 @@ await client.sendMessage(num, {text: `Para sua segurança e para não ocorrer er
         }
         const isGroup = info.key.remoteJid.endsWith('@g.us')
         const sender = isGroup ? info.key.participant : info.key.remoteJid
+        const isUser = (lerUser.usuarios.hasOwnProperty(sender)) ? true : false
         const isAntiLinkHard = isGroup ? antilinkhard.includes(from) : false
         const isAntilinkgp = isGroup ? antilinkgp.includes(from) : false
         if (isGroup && fs.existsSync(`./functions/anagrama-${from}.json`)) {
@@ -817,7 +825,7 @@ await client.sendMessage(num, {text: `Para sua segurança e para não ocorrer er
         // IS DE functions PARA ADM
         ///////////////////////////////////////////////
 
-        
+
         const Antidoc = isGroup ? antidoc.includes(from) : false
         const isAntiAudio = isGroup ? antiaudio.includes(from) : false
         const isAntiVid = isGroup ? antivid.includes(from) : false
@@ -853,8 +861,8 @@ await client.sendMessage(num, {text: `Para sua segurança e para não ocorrer er
         const mentions = (teks, memberr, id) => {
           (id == null || id == undefined || id == false) ? client.sendMessage(from, { text: teks.trim(), mentions: memberr }) : client.sendMessage(from, { text: teks.trim(), mentions: memberr })
         }
-        
-        
+
+
 
         const addFilter = (sender) => {
           usedCommandRecently.add(sender)
@@ -1033,49 +1041,50 @@ await client.sendMessage(num, {text: `Para sua segurança e para não ocorrer er
 
         const isBot = info.key.fromMe ? true : false
 
-                async function AntilinkHardF() {
-if(isUrl(budy2) && isAntiLinkHard && isGroupAdmins && isBotGroupAdmins && !info.key.fromMe) {
-if(command == "tiktok" && command == "facebook" && command == "instagram" && command == "tiktok" && command == "twitter" && command == "ytmp3" && command == "ytmp4" && command == "play") return
-linkgpp = await client.groupInviteCode(from)
-if(budy2.match(`${linkgpp}`)) return
-if(!isUrl(budy2)) return 
-if(isGroupAdmins) return 
-client.sendMessage(from, { delete: { remoteJid: from, fromMe: false, id: info.key.id, participant: [sender] }})
-if(type === "buttonsResponseMessage") return
-if(type === "listResponseMessage") return
-if(budy2.includes(`${linkgpp}`)) return 
-}
-if(isUrl(budy2) && isAntiLinkHard && !isGroupAdmins && isBotGroupAdmins && !info.key.fromMe) {
-if(command == "tiktok" && command == "facebook" && command == "instagram" && command == "tiktok" && command == "twitter" && command == "ytmp3" && command == "ytmp4" && command == "play") return  
-linkgpp = await client.groupInviteCode(from)
-if(budy2.match(`${linkgpp}`)) return reply('Link do nosso grupo, não irei remover.. ')
-if(isGroupAdmins) return 
-  client.sendMessage(from, { delete: { remoteJid: from, fromMe: false, id: info.key.id, participant: [sender] }})
-if(!isUrl(budy2)) return 
-if(type === "buttonsResponseMessage") return
-if(type === "listResponseMessage") return
-reply('*Link detectado, punindo usuário...*')
-if(!JSON.stringify(groupMembers).includes(sender)) return
-client.groupParticipantsUpdate(from, [sender], 'remove')
-} }
+        async function AntilinkHardF() {
+          if (isUrl(budy2) && isAntiLinkHard && isGroupAdmins && isBotGroupAdmins && !info.key.fromMe) {
+            if (command == "tiktok" && command == "facebook" && command == "instagram" && command == "tiktok" && command == "twitter" && command == "ytmp3" && command == "ytmp4" && command == "play") return
+            linkgpp = await client.groupInviteCode(from)
+            if (budy2.match(`${linkgpp}`)) return
+            if (!isUrl(budy2)) return
+            if (isGroupAdmins) return
+            client.sendMessage(from, { delete: { remoteJid: from, fromMe: false, id: info.key.id, participant: [sender] } })
+            if (type === "buttonsResponseMessage") return
+            if (type === "listResponseMessage") return
+            if (budy2.includes(`${linkgpp}`)) return
+          }
+          if (isUrl(budy2) && isAntiLinkHard && !isGroupAdmins && isBotGroupAdmins && !info.key.fromMe) {
+            if (command == "tiktok" && command == "facebook" && command == "instagram" && command == "tiktok" && command == "twitter" && command == "ytmp3" && command == "ytmp4" && command == "play") return
+            linkgpp = await client.groupInviteCode(from)
+            if (budy2.match(`${linkgpp}`)) return reply('Link do nosso grupo, não irei remover.. ')
+            if (isGroupAdmins) return
+            client.sendMessage(from, { delete: { remoteJid: from, fromMe: false, id: info.key.id, participant: [sender] } })
+            if (!isUrl(budy2)) return
+            if (type === "buttonsResponseMessage") return
+            if (type === "listResponseMessage") return
+            reply('*Link detectado, punindo usuário...*')
+            if (!JSON.stringify(groupMembers).includes(sender)) return
+            client.groupParticipantsUpdate(from, [sender], 'remove')
+          }
+        }
 
-AntilinkHardF()
+        AntilinkHardF()
 
-if(isUrl(body) && isAntilinkgp && isGroup && isBotGroupAdmins) {
-if(!isAntilinkgp) return
-if(!isUrl(body)) return 
-if(isGroupAdmins) return reply("Você é adm, não removerei você..") 
-if(budy2.includes("chat.whatsapp.com/")){
-if(!budy2.includes("chat.whatsapp.com/")) return
-if(isBot) return 
-linkgpp = await client.groupInviteCode(from)
-if(budy.match(`${linkgpp}`)) return reply('Link do nosso grupo, não irei remover.. ')  
-reply('*Link de grupo detectado, punindo usuário...*')
-client.sendMessage(from, { delete: { remoteJid: from, fromMe: false, id: info.key.id, participant: [sender] }})
-if(!JSON.stringify(groupMembers).includes(sender)) return
-client.groupParticipantsUpdate(from, [sender], 'remove')
-}
-}
+        if (isUrl(body) && isAntilinkgp && isGroup && isBotGroupAdmins) {
+          if (!isAntilinkgp) return
+          if (!isUrl(body)) return
+          if (isGroupAdmins) return reply("Você é adm, não removerei você..")
+          if (budy2.includes("chat.whatsapp.com/")) {
+            if (!budy2.includes("chat.whatsapp.com/")) return
+            if (isBot) return
+            linkgpp = await client.groupInviteCode(from)
+            if (budy.match(`${linkgpp}`)) return reply('Link do nosso grupo, não irei remover.. ')
+            reply('*Link de grupo detectado, punindo usuário...*')
+            client.sendMessage(from, { delete: { remoteJid: from, fromMe: false, id: info.key.id, participant: [sender] } })
+            if (!JSON.stringify(groupMembers).includes(sender)) return
+            client.groupParticipantsUpdate(from, [sender], 'remove')
+          }
+        }
 
         enviar = reply
 
@@ -1214,7 +1223,7 @@ client.groupParticipantsUpdate(from, [sender], 'remove')
           }
         }
 
-       
+
 
         // RESPOSTAS DOS COMANDOS \\
         resposta = {
@@ -1233,7 +1242,7 @@ client.groupParticipantsUpdate(from, [sender], 'remove')
         }
 
         comando = command
-        
+
         if (isGroup) {
           if (isCmd && !isBot) {
             console.log(
@@ -1279,86 +1288,87 @@ client.groupParticipantsUpdate(from, [sender], 'remove')
         return
         }
         */
-        
-        
+
+
 
 
         const { pix } = require('@klawdyo/pix.js');
+
+
+
+
+
+        client.ev.on('groupAdd', async (chat) => {
+          const groupId = chat.jid;
+          const newMember = chat.who;
+
+          // Mensagem de boas-vindas
+          const mensagemBoasVindas = `Bem-vindo(a) ao grupo, ${newMember.mention}! 🎉\nEsperamos que você aproveite sua estadia.`;
+
+          // Enviar a mensagem de boas-vindas
+          await client.sendMessage(groupId, { text: mensagemBoasVindas });
+        });
+
+        if (isGroup && budy === "Bom dia" || isGroup && budy === "bom dia") return reply(`Mais um dia começando! Vamos firmes e fortes alcançar nossos objetivos!🌅`)
+        if (isGroup && budy === "Boa tarde" || isGroup && budy === "boa tarde") return reply(`Linda tarde para você que, com alegria, espalha amor e carinho todos os dias!🌁`)
+        if (isGroup && budy === "Boa noite" || isGroup && budy === "boa noite") return reply(`É hora de agradecer pelo hoje e sonhar com os planos de amanhã. Tenha uma linda noite!🌠`)
+
+        const verifiRegistroo = JSON.parse(fs.readFileSync(`./registros/db/dbregistro.json`))
+        const jidIgualSender = verifiRegistroo.some(usuario => usuario.jid === sender);
+        const isDigno = verifiRegistroo.some(objeto => objeto.jid === sender);
+        const lerBv = JSON.parse(fs.readFileSync('./registros/db/grupos.json'))
         
-      
+        const grupoRegi = from
 
 
+        function gerarKey() {
+          const caracters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+          let key = '';
 
-client.ev.on('groupAdd', async (chat) => {
-    const groupId = chat.jid;
-    const newMember = chat.who;
-    
-    // Mensagem de boas-vindas
-    const mensagemBoasVindas = `Bem-vindo(a) ao grupo, ${newMember.mention}! 🎉\nEsperamos que você aproveite sua estadia.`;
+          for (let i = 0; i < 6; i++) {
+            const indice = Math.floor(Math.random() * caracters.length);
+            key += caracters.charAt(indice);
+          }
 
-    // Enviar a mensagem de boas-vindas
-    await client.sendMessage(groupId, { text: mensagemBoasVindas });
-});
+          return key;
+        }
 
-          if(isGroup && budy === "Bom dia" || isGroup && budy === "bom dia") return reply(`Mais um dia começando! Vamos firmes e fortes alcançar nossos objetivos!🌅`)
-          if(isGroup && budy === "Boa tarde" || isGroup && budy === "boa tarde") return reply(`Linda tarde para você que, com alegria, espalha amor e carinho todos os dias!🌁`)
-          if(isGroup && budy === "Boa noite" || isGroup && budy === "boa noite") return reply(`É hora de agradecer pelo hoje e sonhar com os planos de amanhã. Tenha uma linda noite!🌠`)
-          
-          const verifiRegistroo = JSON.parse(fs.readFileSync(`./registros/db/dbregistro.json`))
-          const jidIgualSender = verifiRegistroo.some(usuario => usuario.jid === sender);
-          const isDigno = verifiRegistroo.some(objeto => objeto.jid === sender);
-          const lerBv = JSON.parse(fs.readFileSync('./registros/db/grupos.json'))
-          const grupoRegi = from
-          
-          
-          function gerarKey() {
-  const caracters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let key = '';
 
-  for (let i = 0; i < 6; i++) {
-    const indice = Math.floor(Math.random() * caracters.length);
-    key += caracters.charAt(indice);
-  }
-
-  return key;
-}
-          
-            
         switch (command) {
 
-case "sorteio":
-    if (!isGroup) return reply(`apenas em grupos`);
-    if (!isGroupAdmins) return reply(`apenas admins`);
-  const texto = q
-  if (!texto.includes("/")) return reply(`use / para definir o tempo, sorteio e número de vencedores.\nPor exemplo:\n${prefix}sorteio 1m/sorteio/1 (para minutos).\n${prefix}sorteio 1h/sorteio/1 (para horas)`)
-           const tempoString = texto.split('/')[0] || 'Indefinido'
-           const mensagemSorteio = texto.split('/')[1] || 'Indefinido'
-           const usuariosSorteioTexto = texto.split('/')[2] || 'Indefinido'
-const numeroVencedores = parseInt(usuariosSorteioTexto, 10);
+          case "sorteio":
+            if (!isGroup) return reply(`apenas em grupos`);
+            if (!isGroupAdmins) return reply(`apenas admins`);
+            const texto = q
+            if (!texto.includes("/")) return reply(`use / para definir o tempo, sorteio e número de vencedores.\nPor exemplo:\n${prefix}sorteio 1m/sorteio/1 (para minutos).\n${prefix}sorteio 1h/sorteio/1 (para horas)`)
+            const tempoString = texto.split('/')[0] || 'Indefinido'
+            const mensagemSorteio = texto.split('/')[1] || 'Indefinido'
+            const usuariosSorteioTexto = texto.split('/')[2] || 'Indefinido'
+            const numeroVencedores = parseInt(usuariosSorteioTexto, 10);
 
-    // Extrai a unidade de tempo e o valor
-    const regexResult = tempoString.match(/^(\d+)([hm])$/);
-if (isNaN(numeroVencedores) || numeroVencedores <= 0) {
-    return reply('Por favor, forneça uma quantidade válida de vencedores.');
-}
-    if (!regexResult) {
-        return reply('Formato de tempo inválido. Use o formato "1h" para horas ou "20m" para minutos.');
-    }
-    
-    const valorTempo = parseInt(regexResult[1], 10);
-    const unidadeTempo = regexResult[2];
+            // Extrai a unidade de tempo e o valor
+            const regexResult = tempoString.match(/^(\d+)([hm])$/);
+            if (isNaN(numeroVencedores) || numeroVencedores <= 0) {
+              return reply('Por favor, forneça uma quantidade válida de vencedores.');
+            }
+            if (!regexResult) {
+              return reply('Formato de tempo inválido. Use o formato "1h" para horas ou "20m" para minutos.');
+            }
 
-    let tempoEmMilissegundos;
+            const valorTempo = parseInt(regexResult[1], 10);
+            const unidadeTempo = regexResult[2];
 
-    if (unidadeTempo === 'h') {
-        tempoEmMilissegundos = valorTempo * 60 * 60 * 1000; // Converte horas para milissegundos
-    } else if (unidadeTempo === 'm') {
-        tempoEmMilissegundos = valorTempo * 60 * 1000; // Converte minutos para milissegundos
-    } else {
-        return reply('Unidade de tempo inválida. Use "h" para horas ou "m" para minutos.');
-    }
-    
-    const sorteiu = `🍀 *ATENÇÃO!!! VAMOS TER SORTEIO!!* 🍀
+            let tempoEmMilissegundos;
+
+            if (unidadeTempo === 'h') {
+              tempoEmMilissegundos = valorTempo * 60 * 60 * 1000; // Converte horas para milissegundos
+            } else if (unidadeTempo === 'm') {
+              tempoEmMilissegundos = valorTempo * 60 * 1000; // Converte minutos para milissegundos
+            } else {
+              return reply('Unidade de tempo inválida. Use "h" para horas ou "m" para minutos.');
+            }
+
+            const sorteiu = `🍀 *ATENÇÃO!!! VAMOS TER SORTEIO!!* 🍀
 
 *SORTEIO CONFIGURADO*
 *TOTAL DE GANHADORES: até ${numeroVencedores} ganhadores.*
@@ -1379,43 +1389,43 @@ _${mensagemSorteio}_
 *NÃO PERCA ESSA CHANCE! REAJA A ESSA MENSAGEM IMEDIATAMENTE!*`
 
 
-    const getKeyAuthor = (
-        key,
-        meId = 'me'
-    ) => (
-        (key?.fromMe ? meId : key?.participant || key?.remoteJid) || ''
-    );
+            const getKeyAuthor = (
+              key,
+              meId = 'me'
+            ) => (
+              (key?.fromMe ? meId : key?.participant || key?.remoteJid) || ''
+            );
 
-    const getReactionAuthors = (msg) => {
-        return (msg.reactions || []).map(r => getKeyAuthor(r.key));
-    };
+            const getReactionAuthors = (msg) => {
+              return (msg.reactions || []).map(r => getKeyAuthor(r.key));
+            };
 
-    const mensagemEnviada = await client.sendMessage(from, { text: sorteiu });
+            const mensagemEnviada = await client.sendMessage(from, { text: sorteiu });
 
-    // Aguardar o tempo definido pelo usuário
-    await new Promise(resolve => setTimeout(resolve, tempoEmMilissegundos));
+            // Aguardar o tempo definido pelo usuário
+            await new Promise(resolve => setTimeout(resolve, tempoEmMilissegundos));
 
- 
 
-    const autoresReacoes = getReactionAuthors(mensagemEnviada);
 
-    // Sortear vencedores
-    const numeroMaximoVencedores = Math.min(autoresReacoes.length, numeroVencedores);
-    const vencedores = [];
+            const autoresReacoes = getReactionAuthors(mensagemEnviada);
 
-    for (let i = 0; i < numeroMaximoVencedores; i++) {
-        const indiceSorteado = Math.floor(Math.random() * autoresReacoes.length);
-        const vencedor = autoresReacoes.splice(indiceSorteado, 1)[0];
-        vencedores.push({ tag: '@' + vencedor.split('@')[0], id: vencedor });
-    }
+            // Sortear vencedores
+            const numeroMaximoVencedores = Math.min(autoresReacoes.length, numeroVencedores);
+            const vencedores = [];
 
-    const numeroDeReacoes = (mensagemEnviada.reactions || []).length;
-    
-    
-    
-    // Mencionar vencedores no grupo
-    if (vencedores.length > 0) {
-        const mensagemVencedor = ` 🥶 *SORTEIO ${mensagemSorteio} INICIADO!!!!* 😨
+            for (let i = 0; i < numeroMaximoVencedores; i++) {
+              const indiceSorteado = Math.floor(Math.random() * autoresReacoes.length);
+              const vencedor = autoresReacoes.splice(indiceSorteado, 1)[0];
+              vencedores.push({ tag: '@' + vencedor.split('@')[0], id: vencedor });
+            }
+
+            const numeroDeReacoes = (mensagemEnviada.reactions || []).length;
+
+
+
+            // Mencionar vencedores no grupo
+            if (vencedores.length > 0) {
+              const mensagemVencedor = ` 🥶 *SORTEIO ${mensagemSorteio} INICIADO!!!!* 😨
 
 *Só podem haver no máximo ${numeroVencedores} vencedor(es)!* 🫣 
     
@@ -1427,8 +1437,8 @@ _${mensagemSorteio}_
     
 *EMBARALHANDO PARTICIPANTES* 🔁
 🎲🎲🎲🎲🎲🎲🎲🎲🎲🎲...`;
-    await client.sendMessage(from, {text: mensagemVencedor})
-    const mensagemVencedores = `
+              await client.sendMessage(from, { text: mensagemVencedor })
+              const mensagemVencedores = `
     🎉 *SORTEIO REALIZADO* 🎊
 
 🥳 *O(s) ${numeroVencedores} GANHADOR(ES) SERÃO MENCIONADOS ABAIXO:* 📯
@@ -1442,18 +1452,18 @@ ${vencedores.map(v => v.tag).join('\n')}
   
   _${mensagemSorteio}_
     `
-        await client.sendMessage(from, { text: mensagemVencedores, mentions: vencedores, contextInfo: { mentionedJid: vencedores.map(v => v.id) } });
-    } else {
-        await client.sendMessage(from, { text: 'Nenhum vencedor desta vez.' });
-    }
+              await client.sendMessage(from, { text: mensagemVencedores, mentions: vencedores, contextInfo: { mentionedJid: vencedores.map(v => v.id) } });
+            } else {
+              await client.sendMessage(from, { text: 'Nenhum vencedor desta vez.' });
+            }
 
-    break;
-
-
+            break;
 
 
-case "sinaisgp":
-            
+
+
+          case "sinaisgp":
+
             membros = (groupId, membros1) => {
               array = []
               for (let i = 0; i < membros1.length; i++) {
@@ -1462,46 +1472,46 @@ case "sinaisgp":
               return array
             }
             var yd = membros(from, groupMembers)
-            if(!isOwner) return reply(`Apenas dono`)
-            if(!isGroup) return reply(`Apenas em grupos`)
+            if (!isOwner) return reply(`Apenas dono`)
+            if (!isGroup) return reply(`Apenas em grupos`)
             const mensagensgp = JSON.parse(fs.readFileSync('./sinais.json'))
-            if(mensagensgp && mensagensgp.sinais) {
-            const mensagemSinais = mensagensgp.sinais
-            client.sendMessage(from, {text: mensagemSinais, mentions: yd}, {quoted: info})
+            if (mensagensgp && mensagensgp.sinais) {
+              const mensagemSinais = mensagensgp.sinais
+              client.sendMessage(from, { text: mensagemSinais, mentions: yd }, { quoted: info })
             }
-        break
-        case "sinais":
-            if(!isDigno) return reply(`use ${prefix}registrar no meu pv para se registrar.`)
-            if(!isGroup) return reply(`Apenas em grupos`)
+            break
+          case "sinais":
+            if (!isDigno) return reply(`use ${prefix}registrar no meu pv para se registrar.`)
+            if (!isGroup) return reply(`Apenas em grupos`)
             const mensagens = JSON.parse(fs.readFileSync('./sinais.json'))
-            if(mensagens && mensagens.sinais) {
-            const mensagemSinais = mensagens.sinais
-            client.sendMessage(from, {text: `enviando os sinais atualizados no seu pv!!`})
-            client.sendMessage(sender, {text: mensagemSinais}, {quoted: info})
+            if (mensagens && mensagens.sinais) {
+              const mensagemSinais = mensagens.sinais
+              client.sendMessage(from, { text: `enviando os sinais atualizados no seu pv!!` })
+              client.sendMessage(sender, { text: mensagemSinais }, { quoted: info })
             }
-        break
-        
-        case "novosinal":
-        if(!isOwner) return reply(`Apenas dono`)
-        if(!q) return reply(`qual novo sinal?\nExemplo:\n${prefix}novosinal novo sinal`)
-        const lerSinal = JSON.parse(fs.readFileSync('./sinais.json'))
-        lerSinal.sinais = `${q}`
-        fs.writeFileSync('./sinais.json', JSON.stringify(lerSinal))
-        await client.sendMessage(from, {text: 'novo sinal adicionado com sucesso!'})
-        break
-        
-        case "novohorario":
-        if(!q) return reply(`qual novo horário?\nExemplo:\n${prefix}novohorario novo horario`)
-        const lerHorario = JSON.parse(fs.readFileSync('./sinais.json'))
-        lerHorario.horarios = `${q}`
-        fs.writeFileSync('./sinais.json', JSON.stringify(lerHorario))
-        await client.sendMessage(from, {text: 'novo horário adicionado com sucesso!'})
-        break
+            break
+
+          case "novosinal":
+            if (!isOwner) return reply(`Apenas dono`)
+            if (!q) return reply(`qual novo sinal?\nExemplo:\n${prefix}novosinal novo sinal`)
+            const lerSinal = JSON.parse(fs.readFileSync('./sinais.json'))
+            lerSinal.sinais = `${q}`
+            fs.writeFileSync('./sinais.json', JSON.stringify(lerSinal))
+            await client.sendMessage(from, { text: 'novo sinal adicionado com sucesso!' })
+            break
+
+          case "novohorario":
+            if (!q) return reply(`qual novo horário?\nExemplo:\n${prefix}novohorario novo horario`)
+            const lerHorario = JSON.parse(fs.readFileSync('./sinais.json'))
+            lerHorario.horarios = `${q}`
+            fs.writeFileSync('./sinais.json', JSON.stringify(lerHorario))
+            await client.sendMessage(from, { text: 'novo horário adicionado com sucesso!' })
+            break
 
 
-    case "horariosgp":
-    if(!isOwner) return reply(`Apenas dono`)
-    membros = (groupId, membros1) => {
+          case "horariosgp":
+            if (!isOwner) return reply(`Apenas dono`)
+            membros = (groupId, membros1) => {
               array = []
               for (let i = 0; i < membros1.length; i++) {
                 array.push(membros1[i].id)
@@ -1509,324 +1519,451 @@ case "sinaisgp":
               return array
             }
             var yd = membros(from, groupMembers)
-            
+
             const horariosgp = JSON.parse(fs.readFileSync('./sinais.json'))
-            
-            if(horariosgp && horariosgp.horarios) {
-            const mensagemHorarios = horariosgp.horarios
-            client.sendMessage(from, {text: mensagemHorarios, mentions: yd}, {quoted: info})
-            }
-    break
-    
-    case "horarios":
-    if(!isDigno) return reply(`use ${prefix}registrar no meu pv para de registrar!!`)
-    if(!isGroup) return reply(`Apenas em grupos`)
-    const horariosPv = JSON.parse(fs.readFileSync('./sinais.json'))
-    if(horariosPv && horariosPv.horarios) {
-            const mensagemHorariosPv = horariosPv.horarios
-            client.sendMessage(from, {text: `enviando os sinais atualizados no seu pv!!`})
-            client.sendMessage(sender, {text: mensagemHorariosPv, mentions: yd}, {quoted: info})
-            }
-    break
-          
-    case "cancelar":
-    case "registrar":
-    if(isGroup) return reply(`apenas no pv`)
-    if(jidIgualSender){
-    await client.sendMessage(from, {text: `Você já se registrou!!`})
-    } else {
-    const arq = `./registros/registro_${sender}.json`
-    const dados = {
-    nome: "nome",
-    email: "email",
-    telefone: "telefone",
-    }
-    
-    const dadosJSON = JSON.stringify(dados, null, 2)
-    
-    if(fs.existsSync(arq)) {
-    fs.unlinkSync(arq)
-    fs.writeFileSync(`./registros/registro_${sender}.json`, dadosJSON)
-    console.log(`arquivo excluido e criado: ${arq}`)
-    
-    } else {
-    fs.writeFileSync(`./registros/registro_${sender}.json`, dadosJSON)
-    
- 
-     
-     console.log(`arquivo criado: ${arq}`)
-     
-     
-    }
-    
-    const dbr = JSON.parse(fs.readFileSync(`./sinais.json`))
-    
-    
-    const msgRegister = `${dbr.msgregistro}`
 
-await client.sendMessage(from, {text: msgRegister})
+            if (horariosgp && horariosgp.horarios) {
+              const mensagemHorarios = horariosgp.horarios
+              client.sendMessage(from, { text: mensagemHorarios, mentions: yd }, { quoted: info })
+            }
+            break
 
-await client.sendMessage(from, {text: `digite ${prefix}start para começar seu registro no bot`})
-}
-    break
-    
-    case "start":
-    if(isGroup) return reply(`apenas no pv`)
-    if(jidIgualSender){
-    await client.sendMessage(from, {text: `Você já se registrou!!`})
-    } else {
-    
-    const arq1 = `./registros/registro_${sender}.json`
-    const dados1 = {
-    nome: "nome",
-    email: "email",
-    telefone: "telefone",
-    }
-    
-    const dadosJSON1 = JSON.stringify(dados1, null, 2)
-    
-    if(fs.existsSync(arq1)) {
-    fs.unlinkSync(arq1)
-    fs.writeFileSync(`./registros/registro_${sender}.json`, dadosJSON1)
-    console.log(`arquivo excluido e criado: ${arq1}`)
-    
-    } else {
-    fs.writeFileSync(`./registros/registro_${sender}.json`, dadosJSON1)
-    
- 
-     
-     console.log(`arquivo criado: ${arq1}`)
-     
-     
-    }
-  
-  
- 
-    const msgStart = `🎰 *VAMOS COMEÇAR* 🎰
+          case "horarios":
+            if (!isDigno) return reply(`use ${prefix}registrar no meu pv para de registrar!!`)
+            if (!isGroup) return reply(`Apenas em grupos`)
+            const horariosPv = JSON.parse(fs.readFileSync('./sinais.json'))
+            if (horariosPv && horariosPv.horarios) {
+              const mensagemHorariosPv = horariosPv.horarios
+              client.sendMessage(from, { text: `enviando os sinais atualizados no seu pv!!` })
+              client.sendMessage(sender, { text: mensagemHorariosPv, mentions: yd }, { quoted: info })
+            }
+            break
+
+          case "cancelar":
+          case "registrar":
+            if (isGroup) return reply(`apenas no pv`)
+            if (jidIgualSender) {
+              await client.sendMessage(from, { text: `Você já se registrou!!` })
+            } else {
+              const arq = `./registros/registro_${sender}.json`
+              const dados = {
+                nome: "nome",
+                email: "email",
+                telefone: "telefone",
+              }
+
+              const dadosJSON = JSON.stringify(dados, null, 2)
+
+              if (fs.existsSync(arq)) {
+                fs.unlinkSync(arq)
+                fs.writeFileSync(`./registros/registro_${sender}.json`, dadosJSON)
+                console.log(`arquivo excluido e criado: ${arq}`)
+
+              } else {
+                fs.writeFileSync(`./registros/registro_${sender}.json`, dadosJSON)
+
+
+
+                console.log(`arquivo criado: ${arq}`)
+
+
+              }
+
+              const dbr = JSON.parse(fs.readFileSync(`./sinais.json`))
+
+
+              const msgRegister = `${dbr.msgregistro}`
+
+              await client.sendMessage(from, { text: msgRegister })
+
+              await client.sendMessage(from, { text: `digite ${prefix}start para começar seu registro no bot` })
+            }
+            break
+
+          case "start":
+            if (isGroup) return reply(`apenas no pv`)
+            if (jidIgualSender) {
+              await client.sendMessage(from, { text: `Você já se registrou!!` })
+            } else {
+
+              const arq1 = `./registros/registro_${sender}.json`
+              const dados1 = {
+                nome: "nome",
+                email: "email",
+                telefone: "telefone",
+              }
+
+              const dadosJSON1 = JSON.stringify(dados1, null, 2)
+
+              if (fs.existsSync(arq1)) {
+                fs.unlinkSync(arq1)
+                fs.writeFileSync(`./registros/registro_${sender}.json`, dadosJSON1)
+                console.log(`arquivo excluido e criado: ${arq1}`)
+
+              } else {
+                fs.writeFileSync(`./registros/registro_${sender}.json`, dadosJSON1)
+
+
+
+                console.log(`arquivo criado: ${arq1}`)
+
+
+              }
+
+
+
+              const msgStart = `🎰 *VAMOS COMEÇAR* 🎰
 
 Obs: preencha as informações que você ultilizou no cadastro da plataforma!🎰`
 
-await client.sendMessage(from, {text: `*Preencha as seguintes informações👇🏻*`})
+              await client.sendMessage(from, { text: `*Preencha as seguintes informações👇🏻*` })
 
-await client.sendMessage(from, {text: `_NOME:_ *Utilize ${prefix}nome seguindo do seu nome usado na plataforma*`})
-}
-    break
-    
-    case "nome":
-    if(isGroup) return reply(`registro bloquedo, use ${prefix}registrar no pv do bot`)
-    if(jidIgualSender){
-    await client.sendMessage(from, {text: `Você já se registrou!!`})
-    } else {
-    if(!q) return reply(`formato inválido! Use ${prefix}nome (seu nome) "sem os parênteses".\nLembre-se de utilizar o mesmo registrado na plataforma para não ocorrer erros.`)
- 
-    const lerNome = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
-    lerNome.nome = `${q}`
-    fs.writeFileSync(`./registros/registro_${sender}.json`, JSON.stringify(lerNome))
-    
-    await client.sendMessage(from, {text: `O *nome* está correto?\n\n${lerNome.nome}\n\nCaso não esteja, basta usar *${prefix}nome* novamente para informar o *nome* correto.\n\nSe o *nome* estiver correto, vamos prosseguir para inserir o seu *e-mail.* Use *${prefix}email* seguindo com o seu *e-mail.*`})
-    
-}
-    break
-    
-    case "email":
-        if(isGroup) return reply(`registro bloquedo, use ${prefix}register no pv do bot`)
-        if(jidIgualSender){
-    await client.sendMessage(from, {text: `Você já se registrou!!`})
-    } else {
-    if(!q) return reply(`formato inválido! Use ${prefix}email seu email.\nLembre-se de utilizar o mesmo registrado na plataforma para não ocorrer erros.`)
-    
-    const validarEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    
-    if(validarEmail.test(`${q}`)) {
-        const lerEmail = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
-    
-    lerEmail.email = `${q}`
-    fs.writeFileSync(`./registros/registro_${sender}.json`, JSON.stringify(lerEmail))
-    
-    await client.sendMessage(from, {text: `O *e-mail* está correto?\n\n${lerEmail.email}\n\nCaso não esteja, basta usar *${prefix}email* novamente para informar o *e-mail* correto.\n\nSe o *e-mail* estiver correto, vamos prosseguir para inserir o seu *número de telefone.* Use *${prefix}telefone* seguindo com o seu número.\n\n_Obs:_ o formato não deve conter caracteres(+ ou -).\n*Exemplo:* ${prefix}telefone 11995430079\n_Não esqueça de informar o ddd junto do número._`})
-    } else {
-    await client.sendMessage(from, {text: `Formato de e-mail inválido. Use o mesmo utilizado na plataforma!!`})
-    }
-    }
+              await client.sendMessage(from, { text: `_NOME:_ *Utilize ${prefix}nome seguindo do seu nome usado na plataforma*` })
+            }
+            break
 
-    break
-    
-    case "telefone":
-    if(isGroup) return reply(`registro bloquedo, use ${prefix}register no pv do bot`)
-    if(jidIgualSender){
-    await client.sendMessage(from, {text: `Você já se registrou!!`})
-    } else {
-    if(!q) return reply(`formato inválido! Use ${prefix}telefone seu telefone.\nLembre-se de utilizar o mesmo registrado na plataforma para não ocorrer erros.`)
+          case "nome":
+            if (isGroup) return reply(`registro bloquedo, use ${prefix}registrar no pv do bot`)
+            if (jidIgualSender) {
+              await client.sendMessage(from, { text: `Você já se registrou!!` })
+            } else {
+              if (!q) return reply(`formato inválido! Use ${prefix}nome (seu nome) "sem os parênteses".\nLembre-se de utilizar o mesmo registrado na plataforma para não ocorrer erros.`)
 
-    const validarTelefone = /^[0-9]+$/
-    
-    if(validarTelefone.test(`${q}`)) {
-    const lerTel = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
-    lerTel.telefone = `${q}`
-    fs.writeFileSync(`./registros/registro_${sender}.json`, JSON.stringify(lerTel))
-    
-     
-   await client.sendMessage(from, {text: `O *telefone* está correto?\n\n${lerTel.telefone}\n\nCaso não esteja, basta usar *${prefix}telefone* novamente para informar o *telefone* correto.\n\nSe o *telefone* estiver correto, vamos prosseguir para verificar se os dados estão corretos. Use *${prefix}verificar*`})
-    } else {
-    await client.sendMessage(from, {text: `número inválido!! Não pode conter espaçamentos e nem caracteres especiais como espaço e outros.\n\nUse *${prefix}telefone* seguindo com o seu número.\n\n_Obs:_ o formato não deve conter caracteres(+ ou -).\n*Exemplo:* ${prefix}telefone 11995430079\n_Não esqueça de informar o ddd junto do número._`})
-    }
-    
-    
-    
-    }
-    
-    break
-    
-        case "verificar":
-        if(jidIgualSender){
-    await client.sendMessage(from, {text: `Você já se registrou!!`})
-    } else {
-    const infoNome = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
-    const infoEmail = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
-    const infoTel = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+              const lerNome = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+              lerNome.nome = `${q}`
+              fs.writeFileSync(`./registros/registro_${sender}.json`, JSON.stringify(lerNome))
 
-const confirmarRegistro = `*Antes de te registrar confirme as informações:*\n\n_NOME_: ${infoNome.nome}\n_E-MAIL:_ ${infoEmail.email}\n_TELEFONE:_ ${infoTel.telefone}\n\n*Se os dados estão corretos, use ${prefix}confirmar para realizar seu registro. Use ${prefix}cancelar para refazer o registro.\n\nCaso queira modificar alguma informação, basta usar o comando de acordo com a informação que deseja usar e digite ${prefix}verificar para poder ver se as suas informações estão corretas.`
-    const verifNome = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
-    const verifEmail = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
-    const verifTel = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
-    
-    if(verifNome.nome === "nome") {
-    await client.sendMessage(from, {text: `Nome não fornecido, use ${prefix}nome para cadastrar seu nome.` })
-    } else if(verifEmail.email === "email") {
-    await client.sendMessage(from, {text: `e-mail não fornecido, use ${prefix}email para cadastrar seu email.` })
-    } else if(verifTel.telefone === "telefone") {
-    await client.sendMessage(from, {text: `Telefone não fornecido, use ${prefix}telefone para cadastrar seu telefone.` })
-    } else {
-    await client.sendMessage(from, {text: confirmarRegistro })
-    }
-    }
-    
-    break
-    
-    case "confirmar":
-    if(jidIgualSender){
-    await client.sendMessage(from, {text: `Você já se registrou!!`})
-    } else {
-    try {
-    const verifNome1 = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
-    const verifEmail1 = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
-    const verifTel1 = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
-    
-    if(verifNome1.nome === "nome") {
-    await client.sendMessage(from, {text: `Nome não fornecido, use ${prefix}nome para cadastrar seu nome.` })
-    } else if(verifEmail1.email === "email") {
-    await client.sendMessage(from, {text: `e-mail não fornecido, use ${prefix}email para cadastrar seu email.` })
-    } else if(verifTel1.telefone === "telefone") {
-    await client.sendMessage(from, {text: `Telefone não fornecido, use ${prefix}telefone para cadastrar seu telefone.` })
-    } else {
-    const lerArquivos = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
-    const regis = JSON.parse(fs.readFileSync(`./registros/db/dbregistro.json`))
-    const dadosFinal = {
-    jid: sender,
-    nome: lerArquivos.nome,
-    email: lerArquivos.email,
-    telefone: lerArquivos.telefone
-    }
-    
-   regis.push(dadosFinal)
-   
-    fs.writeFileSync(`./registros/db/dbregistro.json`, JSON.stringify(regis))
-    
-    const arq2 = `./registros/registro_${sender}.json`
-    if(fs.existsSync(arq2)) {
-    fs.unlinkSync(arq2)
-    }
-    
-    
-    await client.sendMessage(from, {text: `Registro realizado com sucesso!! bot liberado para uso.`})
-    }
-    } catch {
-    await client.sendMessage(from, {text: `use ${prefix}registrar`})
-    }
-    }
-    
-    break
+              await client.sendMessage(from, { text: `O *nome* está correto?\n\n${lerNome.nome}\n\nCaso não esteja, basta usar *${prefix}nome* novamente para informar o *nome* correto.\n\nSe o *nome* estiver correto, vamos prosseguir para inserir o seu *e-mail.* Use *${prefix}email* seguindo com o seu *e-mail.*` })
+
+            }
+            break
+
+          case "email":
+            if (isGroup) return reply(`registro bloquedo, use ${prefix}register no pv do bot`)
+            if (jidIgualSender) {
+              await client.sendMessage(from, { text: `Você já se registrou!!` })
+            } else {
+              if (!q) return reply(`formato inválido! Use ${prefix}email seu email.\nLembre-se de utilizar o mesmo registrado na plataforma para não ocorrer erros.`)
+
+              const validarEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+              if (validarEmail.test(`${q}`)) {
+                const lerEmail = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+
+                lerEmail.email = `${q}`
+                fs.writeFileSync(`./registros/registro_${sender}.json`, JSON.stringify(lerEmail))
+
+                await client.sendMessage(from, { text: `O *e-mail* está correto?\n\n${lerEmail.email}\n\nCaso não esteja, basta usar *${prefix}email* novamente para informar o *e-mail* correto.\n\nSe o *e-mail* estiver correto, vamos prosseguir para inserir o seu *número de telefone.* Use *${prefix}telefone* seguindo com o seu número.\n\n_Obs:_ o formato não deve conter caracteres(+ ou -).\n*Exemplo:* ${prefix}telefone 11995430079\n_Não esqueça de informar o ddd junto do número._` })
+              } else {
+                await client.sendMessage(from, { text: `Formato de e-mail inválido. Use o mesmo utilizado na plataforma!!` })
+              }
+            }
+
+            break
+
+          case "telefone":
+            if (isGroup) return reply(`registro bloquedo, use ${prefix}register no pv do bot`)
+            if (jidIgualSender) {
+              await client.sendMessage(from, { text: `Você já se registrou!!` })
+            } else {
+              if (!q) return reply(`formato inválido! Use ${prefix}telefone seu telefone.\nLembre-se de utilizar o mesmo registrado na plataforma para não ocorrer erros.`)
+
+              const validarTelefone = /^[0-9]+$/
+
+              if (validarTelefone.test(`${q}`)) {
+                const lerTel = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+                lerTel.telefone = `${q}`
+                fs.writeFileSync(`./registros/registro_${sender}.json`, JSON.stringify(lerTel))
 
 
-    case "dbregistro":
-    if(!isOwner) return reply(`Apenas dono`)
-                const verifiRegistroo2 = JSON.parse(fs.readFileSync(`./registros/db/dbregistro.json`))
-    if(verifiRegistroo2) {
-    let mensagem = ' '
-    
-    for(let i = 0; i < verifiRegistroo2.length; i++) {
-    const dbRegister = verifiRegistroo2[i]
-    
-    mensagem += `DADOS ${i + 1}\n\n`
-    mensagem += `User: wa.me/+${dbRegister.jid.split("@")[0]}\n`
-    mensagem += `Nome: ${dbRegister.nome}\n`
-    mensagem += `E-mail: ${dbRegister.email}\n`
-    mensagem += `Telefone: ${dbRegister.telefone}
+                await client.sendMessage(from, { text: `O *telefone* está correto?\n\n${lerTel.telefone}\n\nCaso não esteja, basta usar *${prefix}telefone* novamente para informar o *telefone* correto.\n\nSe o *telefone* estiver correto, vamos prosseguir para verificar se os dados estão corretos. Use *${prefix}verificar*` })
+              } else {
+                await client.sendMessage(from, { text: `número inválido!! Não pode conter espaçamentos e nem caracteres especiais como espaço e outros.\n\nUse *${prefix}telefone* seguindo com o seu número.\n\n_Obs:_ o formato não deve conter caracteres(+ ou -).\n*Exemplo:* ${prefix}telefone 11995430079\n_Não esqueça de informar o ddd junto do número._` })
+              }
+
+
+
+            }
+
+            break
+
+          case "verificar":
+            if (jidIgualSender) {
+              await client.sendMessage(from, { text: `Você já se registrou!!` })
+            } else {
+              const infoNome = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+              const infoEmail = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+              const infoTel = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+
+              const confirmarRegistro = `*Antes de te registrar confirme as informações:*\n\n_NOME_: ${infoNome.nome}\n_E-MAIL:_ ${infoEmail.email}\n_TELEFONE:_ ${infoTel.telefone}\n\n*Se os dados estão corretos, use ${prefix}confirmar para realizar seu registro. Use ${prefix}cancelar para refazer o registro.\n\nCaso queira modificar alguma informação, basta usar o comando de acordo com a informação que deseja usar e digite ${prefix}verificar para poder ver se as suas informações estão corretas.`
+              const verifNome = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+              const verifEmail = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+              const verifTel = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+
+              if (verifNome.nome === "nome") {
+                await client.sendMessage(from, { text: `Nome não fornecido, use ${prefix}nome para cadastrar seu nome.` })
+              } else if (verifEmail.email === "email") {
+                await client.sendMessage(from, { text: `e-mail não fornecido, use ${prefix}email para cadastrar seu email.` })
+              } else if (verifTel.telefone === "telefone") {
+                await client.sendMessage(from, { text: `Telefone não fornecido, use ${prefix}telefone para cadastrar seu telefone.` })
+              } else {
+                await client.sendMessage(from, { text: confirmarRegistro })
+              }
+            }
+
+            break
+
+          case "confirmar":
+            if (jidIgualSender) {
+              await client.sendMessage(from, { text: `Você já se registrou!!` })
+            } else {
+              try {
+                const verifNome1 = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+                const verifEmail1 = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+                const verifTel1 = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+
+                if (verifNome1.nome === "nome") {
+                  await client.sendMessage(from, { text: `Nome não fornecido, use ${prefix}nome para cadastrar seu nome.` })
+                } else if (verifEmail1.email === "email") {
+                  await client.sendMessage(from, { text: `e-mail não fornecido, use ${prefix}email para cadastrar seu email.` })
+                } else if (verifTel1.telefone === "telefone") {
+                  await client.sendMessage(from, { text: `Telefone não fornecido, use ${prefix}telefone para cadastrar seu telefone.` })
+                } else {
+                  const lerArquivos = JSON.parse(fs.readFileSync(`./registros/registro_${sender}.json`))
+                  const regis = JSON.parse(fs.readFileSync(`./registros/db/dbregistro.json`))
+                  const dadosFinal = {
+                    jid: sender,
+                    nome: lerArquivos.nome,
+                    email: lerArquivos.email,
+                    telefone: lerArquivos.telefone
+                  }
+
+                  regis.push(dadosFinal)
+
+                  fs.writeFileSync(`./registros/db/dbregistro.json`, JSON.stringify(regis))
+
+                  const arq2 = `./registros/registro_${sender}.json`
+                  if (fs.existsSync(arq2)) {
+                    fs.unlinkSync(arq2)
+                  }
+
+
+                  await client.sendMessage(from, { text: `Registro realizado com sucesso!! bot liberado para uso.` })
+                }
+              } catch {
+                await client.sendMessage(from, { text: `use ${prefix}registrar` })
+              }
+            }
+
+            break
+
+
+          case "dbregistro":
+            if (!isOwner) return reply(`Apenas dono`)
+            const verifiRegistroo2 = JSON.parse(fs.readFileSync(`./registros/db/dbregistro.json`))
+            if (verifiRegistroo2) {
+              let mensagem = ' '
+
+              for (let i = 0; i < verifiRegistroo2.length; i++) {
+                const dbRegister = verifiRegistroo2[i]
+
+                mensagem += `DADOS ${i + 1}\n\n`
+                mensagem += `User: wa.me/+${dbRegister.jid.split("@")[0]}\n`
+                mensagem += `Nome: ${dbRegister.nome}\n`
+                mensagem += `E-mail: ${dbRegister.email}\n`
+                mensagem += `Telefone: ${dbRegister.telefone}
 
 `
-    }
-    
-    await client.sendMessage(from, {text: mensagem}, {quoted: info})
-    } else {
-    await client.sendMessage(from, {text: `Ainda não existem registros na database de registro.`}, {quoted: info})
-    }
-    break
-    
-    case "cleardb":
-    if(!isOwner) return reply(`Apenas dono`)
-  const verifiRegistroo = []
-    fs.writeFileSync(`./registros/db/dbregistro.json`, JSON.stringify(verifiRegistroo))
-    await client.sendMessage(from, {text: 'Database de registros apagado, pronto para novos registros!!'})
-    
-    break
-    
-    case "textdb":
-    if(!isOwner) return reply(`Apenas dono`)
-    if(!q) return reply(`Cadê a mensagem de registro?`)
-    const textdb = JSON.parse(fs.readFileSync(`./sinais.json`))
-    textdb.msgregistro = `${q}`
-    
-    fs.writeFileSync(`./sinais.json`, JSON.stringify(textdb))
-    await client.sendMessage(from, {text: `Mensagem de registro alterada com sucesso!!`}, {quoted: info})
-    break
-    
-    
-    case "rgrupo":
-        if(!q) return reply(`use *on* para criar o cadastro e *off* para excluir o cadastro`)
-        if(q === "on") {
-        if(grupoRegi in lerBv.grupos) {
-        await client.sendMessage(from, {text: `ja ativado`})
-        } else {
-        const keyGp = gerarKey()
-            let novoGp = from
-            lerBv.grupos[novoGp] = {
-            key: keyGp,
-            msgBv: "msgBv",
-            msgS: "msgS",
-            msgH: "msgH"
+              }
+
+              await client.sendMessage(from, { text: mensagem }, { quoted: info })
+            } else {
+              await client.sendMessage(from, { text: `Ainda não existem registros na database de registro.` }, { quoted: info })
             }
-            
-            fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2), 'utf-8')
-            delay(2000)
-            let keyy = lerBv.grupos[from].key
-            
-            await client.sendMessage(from, {text: `Grupo cadastrado, a sua key para gerenciar o grupo foi mandada no seu pv!!`}, {quoted: info})
-            delay(3000)
-            await client.sendMessage(sender, {text: `Aqui está a sua key: ${keyy}`}, {quoted: info})
-        }
-        }
-        if(q === "off") {
-            if(lerBv.grupos[from]) {
+            break
+
+          case "cleardb":
+            if (!isOwner) return reply(`Apenas dono`)
+            const verifiRegistroo = []
+            fs.writeFileSync(`./registros/db/dbregistro.json`, JSON.stringify(verifiRegistroo))
+            await client.sendMessage(from, { text: 'Database de registros apagado, pronto para novos registros!!' })
+
+            break
+
+          case "textdb":
+            if (!isOwner) return reply(`Apenas dono`)
+            if (!q) return reply(`Cadê a mensagem de registro?`)
+            const textdb = JSON.parse(fs.readFileSync(`./sinais.json`))
+            textdb.msgregistro = `${q}`
+
+            fs.writeFileSync(`./sinais.json`, JSON.stringify(textdb))
+            await client.sendMessage(from, { text: `Mensagem de registro alterada com sucesso!!` }, { quoted: info })
+            break
+
+
+          case "rgrupo":
+            if (!q) return reply(`use *on* para criar o cadastro e *off* para excluir o cadastro`)
+            if (q === "on") {
+              if (grupoRegi in lerBv.grupos) {
+                await client.sendMessage(from, { text: `ja ativado` })
+              } else {
+                const keyGp = gerarKey()
+                let novoGp = from
+                lerBv.grupos[novoGp] = {
+                  key: keyGp,
+                  msgBv: "msgBv",
+                  msgS: "msgS",
+                  msgH: "msgH",
+                  msgPv: "msgPv",
+                  msgR: "msgR"
+                }
+
+                fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2), 'utf-8')
+                delay(2000)
+                let keyy = lerBv.grupos[from].key
+
+                await client.sendMessage(from, { text: `Grupo cadastrado, a sua key para gerenciar o grupo foi mandada no seu pv!!` }, { quoted: info })
+                delay(3000)
+                await client.sendMessage(sender, { text: `Aqui está a sua key: ${keyy}` }, { quoted: info })
+              }
+            }
+            if (q === "off") {
+              if (lerBv.grupos[from]) {
                 delete lerBv.grupos[from]
                 delay(2000)
                 fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2), 'utf-8')
-                await client.sendMessage(from, {text: `Cadastro excluido com sucesso!!`})
-                
-            } else {
-            client.sendMessage(from, {text: `Nenhum grupo cadastrado com essa key.`})
+                await client.sendMessage(from, { text: `Cadastro excluido com sucesso!!` })
+
+              } else {
+                client.sendMessage(from, { text: `Nenhum grupo cadastrado com essa key.` })
+              }
             }
-        }
-    break
+            break
+
+          case "congp":
+            if (isGroup) return reply(`Use o meu pv para gerenciar o seu grupo!!`)
+            if (!q) return reply(`*Cadê a key do grupo?*\nUse ${prefix}congp (sua key)\n\n*Obs:* Sem os parênteses.`)
+            
+
+            const keyyy = q
+            const search = Object.keys(lerBv.grupos).find(chave => lerBv.grupos[chave].key === keyyy)
+
+            
+
+            if (search) {
+              if(isUser) {
+              reply(`Você já registrou a key do seu grupo. Use ${prefix}configp para ver o menu de comandos para gerênciar o seu grupo.`)  
+              } else {
+              lerUser.usuarios[sender] = {
+                key: q,
+                grupoId: search
+              }
+  
+              fs.writeFileSync('./registros/db/users.json', JSON.stringify(lerUser, null, 2))
+
+              let grupo = search
+              const grupoAluguel = await client.groupMetadata(grupo)
+              if (grupoAluguel) {
+                let dados = `*DETALHES DO GRUPO COM A KEY: _${q}_*
+_Nome:_ *${grupoAluguel.subject}*
+_Desc:_ *${grupoAluguel.desc}*
+_Membros:_ *${grupoAluguel.participants.length}*`
+
+                reply(dados)
+
+                var menuKey = `GERÊNCIE SEU GRUPO COM ESSE MENU EXCLUSIVO!!
+
+| => ${prefix}msgbv [altera mensagem de boas vindas]
+| => ${prefix}msgh [altera a mensagem de sinais]
+| => ${prefix}msgh [altera a mensagem de horários]
+| => ${prefix}msgpv [altera a mensagem de bem-vindo no pv]
+| => ${prefix}msgr [altera a mensagem de registro]`
+
+                await client.sendMessage(from, { text:menuKey}, {quoted:info})
+              }
+            }
+            } else {
+              reply(`A key ${q} não existe ou expirou. Contate meu dono para gerar uma key para o seu grupo.`)
+            }
+          
+            break
+
+           case "configp":
+            if(!isUser) return reply(`Você precisa registrar a key do seu grupo primeiro`)
+
+            const menuK = `GERÊNCIE SEU GRUPO COM ESSE MENU EXCLUSIVO!!
+
+| => ${prefix}msgbv [altera mensagem de boas vindas]
+| => ${prefix}msgh [altera a mensagem de sinais]
+| => ${prefix}msgh [altera a mensagem de horários]
+| => ${prefix}msgpv [altera a mensagem de bem-vindo no pv]
+| => ${prefix}msgr [altera a mensagem de registro]`
+
+            await client.sendMessage(from,{text:menuK},{quoted:info})
+
+            
+            break
+
+          case "msgbv":
+            if(!isUser) return reply(`Key não registrada.`)
+            if(!q) return reply(`Cadê a nova mensagem?`)
+            const novaMsgBv = `${q}`
+            const keyUser = lerUser.usuarios[sender].grupoId
+            if(lerBv.grupos.hasOwnProperty(keyUser)) {
+              lerBv.grupos[keyUser].msgBv = novaMsgBv
+              fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2))
+              await client.sendMessage(from,{text:`Mensagem de boas vindas alterada com sucesso!!`})
+            }
+            
+            break
+
+          case "msgs": 
+          if(!isUser) return reply(`Key não registrada.`)
+            if(!q) return reply(`Cadê a nova mensagem?`)
+            const novaMsgS = `${q}`
+            const keyUserS = lerUser.usuarios[sender].grupoId
+            if(lerBv.grupos.hasOwnProperty(keyUserS)) {
+              lerBv.grupos[keyUserS].msgS = novaMsgS
+              fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2))
+              await client.sendMessage(from,{text:`Mensagem dos sianis alterada com sucesso!!`})
+            }
+            break
+
+          case "msgh":
+            if(!isUser) return reply(`Key não registrada.`)
+            if(!q) return reply(`Cadê a nova mensagem?`)
+            const novaMsgH = `${q}`
+            const keyUserH = lerUser.usuarios[sender].grupoId
+            if(lerBv.grupos.hasOwnProperty(keyUserH)) {
+              lerBv.grupos[keyUserH].msgH = novaMsgH
+              fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2))
+              await client.sendMessage(from,{text:`Mensagem dos horários alterada com sucesso!!`})
+            }
+            break
+
+          case "msgpv":
+            if(!isUser) return reply(`Key não registrada.`)
+            if(!q) return reply(`Cadê a nova mensagem?`)
+            const novaMsgPv = `${q}`
+            const keyUserPv = lerUser.usuarios[sender].grupoId
+            if(lerBv.grupos.hasOwnProperty(keyUserPv)) {
+              lerBv.grupos[keyUserPv].msgPv = novaMsgPv
+              fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2))
+              await client.sendMessage(from,{text:`Mensagem de bem-vindo no pv alterada com sucesso!!`})
+            }
+            break
+
+          case "msgr":
+            if(!isUser) return reply(`Key não registrada.`)
+            if(!q) return reply(`Cadê a nova mensagem?`)
+            const novaMsgR = `${q}`
+            const keyUserR = lerUser.usuarios[sender].grupoId
+            if(lerBv.grupos.hasOwnProperty(keyUserH)) {
+              lerBv.grupos[keyUserR].msgR = novaMsgR
+              fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2))
+              await client.sendMessage(from,{text:`Mensagem de registro alterada com sucesso!!`})
+            }
+            break
 
           case 'totag':
           case 'cita':
@@ -1890,10 +2027,10 @@ const confirmarRegistro = `*Antes de te registrar confirme as informações:*\n\
             }
             break
 
-          
+
           case "infodono":
           case "dono":
-            
+
             const doninhu = `╭╶᚜ ⛾ 𝐒𝟒𝐤𝐢-𝐛𝐨𝐭 ⛾ ᚛
 ║❮ 👑 𝘿 𝙊 𝙉 𝙊 👑 ❯
 ╰───々 
@@ -1910,7 +2047,7 @@ const confirmarRegistro = `*Antes de te registrar confirme as informações:*\n\
             client.sendMessage(from, { text: doninhu })
             break
 
-          
+
 
 
 
@@ -2001,7 +2138,7 @@ const confirmarRegistro = `*Antes de te registrar confirme as informações:*\n\
             reply(`Número removido a lista de autoban com sucesso `)
             break
 
-          
+
 
           case 'promover':
           case 'promote':
@@ -2066,7 +2203,7 @@ const confirmarRegistro = `*Antes de te registrar confirme as informações:*\n\
             break;
 
 
-          
+
 
           case 'grupo':
             if (!isGroup) return reply(`SÓ EM GRUPO`)
@@ -2081,7 +2218,7 @@ const confirmarRegistro = `*Antes de te registrar confirme as informações:*\n\
             }
             break
 
-          
+
 
           case 'mute':
             if (!isGroup) return reply(resposta.grupo)
@@ -2110,7 +2247,7 @@ const confirmarRegistro = `*Antes de te registrar confirme as informações:*\n\
             client.sendMessage(from, unmuteMessage)
             client.groupSettingChange(groupId, GroupSettingChange.messageSend, true)
             break
-          
+
 
           case 'tagall':
           case 'marcar': {
@@ -2127,7 +2264,7 @@ const confirmarRegistro = `*Antes de te registrar confirme as informações:*\n\
           }
             break
 
-          
+
 
           case 'fstiker':
           case 'fsticker':
@@ -2218,8 +2355,8 @@ const confirmarRegistro = `*Antes de te registrar confirme as informações:*\n\
               {buttonId: `${prefix}infodono`, buttonText: {displayText: '[🍷] 𝘿𝙊𝙉𝙊 [🍷]'}, type: 1}
             ]
             */
-            if(!isGroup) return reply(`apenas em grupos`)
-            if(!isGroupAdmins) return reply(`suba para o cargo *admin* para ter acesso nesse menu`)
+            if (!isGroup) return reply(`apenas em grupos`)
+            if (!isGroupAdmins) return reply(`suba para o cargo *admin* para ter acesso nesse menu`)
             const admin = `
 ╭╶᚜ ${nomeBot} ᚛──
 ║❮ 𝙈 𝙀 𝙉 𝙐  𝘼 𝘿 𝙈 𝙄 𝙉 ❯
@@ -2257,12 +2394,12 @@ const confirmarRegistro = `*Antes de te registrar confirme as informações:*\n\
 ║❮ 𝙈 𝙀 𝙉 𝙐  𝘼 𝘿 𝙈 𝙄 𝙉 ❯
 ╰╶᚜ ${nomeBot} ᚛──
   `
-//client.sendMessage(from, { react: { text: `🛠️`, key: info.key }})
-            
-   client.sendMessage(from, {text: admin})
+            //client.sendMessage(from, { react: { text: `🛠️`, key: info.key }})
+
+            client.sendMessage(from, { text: admin })
           }
             break
-        
+
 
 
           case 'ddd':
@@ -2274,62 +2411,62 @@ const confirmarRegistro = `*Antes de te registrar confirme as informações:*\n\
             for (let i = 0; i < ddds.data.cities.length; i++) { dddlist += `${i + 1} ⪧ *${ddds.data.cities[i]}*\n` }
             client.sendMessage(from, { text: dddlist }, { quoted: info })
             break
-            
- 
-case 'antilink':
-if (!isGroup) return reply(enviar.msg.grupo)
-if (!isGroupAdmins) return reply(enviar.msg.adm)
-if (!isBotGroupAdmins) return reply(enviar.msg.Badmin)
-if (Number(args[0]) === 1) {
-if (isAntiLinkHard) return reply('Ja esta ativo')
-antilinkhard.push(from)
-fs.writeFileSync('./functions/antilink.json', JSON.stringify(antilinkhard))
-reply('[⚡️] Ativou com sucesso o recurso de antilink hardcore neste grupo.')
-} else if (Number(args[0]) === 0) {
-if (!isAntiLinkHard) return reply('Ja esta Desativado')
-pesquisar = from
-processo = antilinkhard.indexOf(pesquisar)
-while(processo >= 0){
-antilinkhard.splice(processo, 1)
-processo = antilinkhard.indexOf(pesquisar)
-}
-fs.writeFileSync('./functions/antilink.json', JSON.stringify(antilinkhard))
-reply('『❗』Desativou com sucesso o recurso de antilink harcore neste grupo.')
-} else {
-if(isAntiLinkHard){
-buttons02 = [{buttonId: `${prefix + command} 0`, buttonText: {displayText: 'Desativar ✘'}, type: 1}]
-} else {
-buttons02 = [{buttonId: `${prefix + command} 1`, buttonText: {displayText: 'Ativar ✓'}, type: 1}]
-}
-}
-break
-
-case 'menu':{
-if(isGroup && isPremium && isGroupAdmins) {
-var tagMenu = "𝑷𝑹𝑬𝑴𝑰𝑼𝑴"
-var cargoMenu = "𝑨𝑫𝑴𝑰𝑵"
-} else if(isGroup && isPremium && !isGroupAdmins) {
-var tagMenu = "𝑷𝑹𝑬𝑴𝑰𝑼𝑴"
-var cargoMenu = "𝑼𝑺𝑼𝑨𝑹𝑰𝑶"
-} else if(isGroup && !isPremium && isGroupAdmins) {
-var tagMenu = "𝑼𝑺𝑼𝑨𝑹𝑰𝑶"
-var cargoMenu = "𝑨𝑫𝑴𝑰𝑵"
-} else if(isGroup) {
-var tagMenu = "𝑼𝑺𝑼𝑨𝑹𝑰𝑶"
-var cargoMenu = "𝑼𝑺𝑼𝑨𝑹𝑰𝑶"
-} else if(!isGroup && isPremium) {
-var tagMenu = "𝑷𝑹𝑬𝑴𝑰𝑼𝑴"
-} else if(!isGroup) {
-var tagMenu = "𝑼𝑺𝑼𝑨𝑹𝑰𝑶"
-}
 
 
+          case 'antilink':
+            if (!isGroup) return reply(enviar.msg.grupo)
+            if (!isGroupAdmins) return reply(enviar.msg.adm)
+            if (!isBotGroupAdmins) return reply(enviar.msg.Badmin)
+            if (Number(args[0]) === 1) {
+              if (isAntiLinkHard) return reply('Ja esta ativo')
+              antilinkhard.push(from)
+              fs.writeFileSync('./functions/antilink.json', JSON.stringify(antilinkhard))
+              reply('[⚡️] Ativou com sucesso o recurso de antilink hardcore neste grupo.')
+            } else if (Number(args[0]) === 0) {
+              if (!isAntiLinkHard) return reply('Ja esta Desativado')
+              pesquisar = from
+              processo = antilinkhard.indexOf(pesquisar)
+              while (processo >= 0) {
+                antilinkhard.splice(processo, 1)
+                processo = antilinkhard.indexOf(pesquisar)
+              }
+              fs.writeFileSync('./functions/antilink.json', JSON.stringify(antilinkhard))
+              reply('『❗』Desativou com sucesso o recurso de antilink harcore neste grupo.')
+            } else {
+              if (isAntiLinkHard) {
+                buttons02 = [{ buttonId: `${prefix + command} 0`, buttonText: { displayText: 'Desativar ✘' }, type: 1 }]
+              } else {
+                buttons02 = [{ buttonId: `${prefix + command} 1`, buttonText: { displayText: 'Ativar ✓' }, type: 1 }]
+              }
+            }
+            break
 
-if(isGroup){ 
-client.sendMessage(from, { react: { text: `🏮`, key: info.key }})
-await client.sendMessage(from, {
-video: fs.readFileSync('./sukuna.mp4'),
-caption: `
+          case 'menu': {
+            if (isGroup && isPremium && isGroupAdmins) {
+              var tagMenu = "𝑷𝑹𝑬𝑴𝑰𝑼𝑴"
+              var cargoMenu = "𝑨𝑫𝑴𝑰𝑵"
+            } else if (isGroup && isPremium && !isGroupAdmins) {
+              var tagMenu = "𝑷𝑹𝑬𝑴𝑰𝑼𝑴"
+              var cargoMenu = "𝑼𝑺𝑼𝑨𝑹𝑰𝑶"
+            } else if (isGroup && !isPremium && isGroupAdmins) {
+              var tagMenu = "𝑼𝑺𝑼𝑨𝑹𝑰𝑶"
+              var cargoMenu = "𝑨𝑫𝑴𝑰𝑵"
+            } else if (isGroup) {
+              var tagMenu = "𝑼𝑺𝑼𝑨𝑹𝑰𝑶"
+              var cargoMenu = "𝑼𝑺𝑼𝑨𝑹𝑰𝑶"
+            } else if (!isGroup && isPremium) {
+              var tagMenu = "𝑷𝑹𝑬𝑴𝑰𝑼𝑴"
+            } else if (!isGroup) {
+              var tagMenu = "𝑼𝑺𝑼𝑨𝑹𝑰𝑶"
+            }
+
+
+
+            if (isGroup) {
+              client.sendMessage(from, { react: { text: `🏮`, key: info.key } })
+              await client.sendMessage(from, {
+                video: fs.readFileSync('./sukuna.mp4'),
+                caption: `
 ╭╶᚜ ${nomeBot} ᚛
 ║❮ 𝔻𝔸𝔻𝕆𝕊 𝔻𝔼 𝕌𝕊𝕌𝔸ℝ𝕀𝕆 ❯
 ║
@@ -2359,17 +2496,17 @@ caption: `
 ║‣ ${prefix}Menuadm
 ╰───々 
 `,
-gifPlayback: true
-})
-}
-}
-break 
-
-          
+                gifPlayback: true
+              })
+            }
+          }
+            break
 
 
 
-          
+
+
+
 
           case 'ban':
           case 'kick':
@@ -2487,7 +2624,6 @@ break
           }
             break
 
-          
 
 
 
@@ -2501,7 +2637,8 @@ break
 
 
 
-//====================//
+
+          //====================//
 
 
           default:
