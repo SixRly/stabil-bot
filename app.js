@@ -237,6 +237,7 @@ try {
     ///////////////////////////////////////////////
 
 
+    const lerBv = JSON.parse(fs.readFileSync('./registros/db/grupos.json'))
 
     const time = moment.tz('America/Sao_Paulo').format('HH:mm:ss');
 
@@ -247,6 +248,7 @@ try {
     client.ev.on('group-participants.update', async (anu) => {
       ale = anu
       conn = client
+      if(lerBv.grupos[ale.id].msgBv !== false) {
 
       const grpmdt = await client.groupMetadata(ale.id);
 
@@ -255,8 +257,8 @@ try {
       const GroupMetadata_ = isGroup2 ? await client.groupMetadata(ale.id) : "";
       const mdata_ = isGroup2 ? await client.groupMetadata(ale.id) : "";
 
-
-      if (welkom2.includes(ale.id)) {
+       
+      if (lerBv.grupos.hasOwnProperty(ale.id)) {
         //if(antifake.includes(ale.id) && !ale.participants[0].startsWith(55)) return
         try {
           let metadata = await client.groupMetadata(anu.id)
@@ -273,31 +275,11 @@ try {
 
             if (anu.action == 'add') {
               num = anu.participants[0]
+              
 
 
-
-              await client.sendMessage(anu.id, {
-                text: `🍀🎰 *OLÁ APOSTADORES*🎰🍀
-
-*SEJAM TODOS BEM VINDOS (AS)*
-
-❌REGRAS DO GRUPO❌
-
-🚫PROIBIDO DIVULGAR OUTRAS PLATAFORMAS (seja por links ou print de ganhos)
-
-🚫PROIBIDO DIVULGAÇÕES ALEATÓRIAS (lojas, eventos, etc..)
-
-🚫PROIBIDO ABORDAR INTEGRANTES NO PRIVADO
-
-🚫PROIBIDO PEDIR DINHEIRO 
-
-🚫PROIBIDO MENORES DE 18 ANOS
-
-🚫PROIBIDO OFERECER BANCA
-
-🎰 *PLATAFORMA QUE INDICAMOS*👇🏻
-
-https://go.aff.elisa.bet/boaobnxy`
+             await client.sendMessage(anu.id, {
+                text: lerBv.grupos[ale.id].msgBv
 
               })
 
@@ -307,30 +289,16 @@ https://go.aff.elisa.bet/boaobnxy`
           console.log(err)
         }
 
-      } else if (welkomPv.includes(ale.id)) {
+      } else if (lerBv.grupos.hasOwnProperty(ale.id) && lerBv.grupos[ale.id].msgPv !== false) {
 
         if (anu.action == 'add') {
           delay(3000)
           num = anu.participants[0]
           await client.sendMessage(num, {
-            text: `*SEJA BEM VINDO AO GRUPO DE SINAIS VIP🎰🔥*
-
-Eu sou a Stheffany bot, inteligência artificial criada para te ajudar no seu dia a dia nas apostas, otimizando seu tempo e melhorando ainda mais o seu modo de apostar!🎰
-
-Você pode executar alguns comandos dentro do grupo, tais esses como;
-
-*.sinais* para receber os sinais atualizados no seu pv!🤳
-
-*.horários* para horários atualizados no seu pv!🤳
-
-Qualquer dúvida ou sugestão entre em contato direto com meu criador!👇🏻
-wa.me/5522998550606`
-
-          })
-          delay(2000)
-          await client.sendMessage(num, { text: `Para sua segurança e para não ocorrer erros, só será possível utilizar o bot após o registro.\n\nUse *${prefix}registrar* para mais informações e para realizar seu registro!!\n\nApenas use o pv do bot para o registro!! os comandos só serão usados no grupo!!` })
+            text: lerBv.grupos[ale.id].msgPv })
         }
       }
+    }
 
     })
 
@@ -1316,7 +1284,7 @@ wa.me/5522998550606`
         const verifiRegistroo = JSON.parse(fs.readFileSync(`./registros/db/dbregistro.json`))
         const jidIgualSender = verifiRegistroo.some(usuario => usuario.jid === sender);
         const isDigno = verifiRegistroo.some(objeto => objeto.jid === sender);
-        const lerBv = JSON.parse(fs.readFileSync('./registros/db/grupos.json'))
+        
         
         const grupoRegi = from
 
@@ -1483,30 +1451,17 @@ ${vencedores.map(v => v.tag).join('\n')}
           case "sinais":
             if (!isDigno) return reply(`use ${prefix}registrar no meu pv para se registrar.`)
             if (!isGroup) return reply(`Apenas em grupos`)
-            const mensagens = JSON.parse(fs.readFileSync('./sinais.json'))
-            if (mensagens && mensagens.sinais) {
-              const mensagemSinais = mensagens.sinais
+            const mensagens = lerBv.grupos[from].msgS
+            if (mensagens !== false) {
+              const mensagemSinais = mensagens 
               client.sendMessage(from, { text: `enviando os sinais atualizados no seu pv!!` })
               client.sendMessage(sender, { text: mensagemSinais }, { quoted: info })
             }
             break
 
-          case "novosinal":
-            if (!isOwner) return reply(`Apenas dono`)
-            if (!q) return reply(`qual novo sinal?\nExemplo:\n${prefix}novosinal novo sinal`)
-            const lerSinal = JSON.parse(fs.readFileSync('./sinais.json'))
-            lerSinal.sinais = `${q}`
-            fs.writeFileSync('./sinais.json', JSON.stringify(lerSinal))
-            await client.sendMessage(from, { text: 'novo sinal adicionado com sucesso!' })
-            break
+         
 
-          case "novohorario":
-            if (!q) return reply(`qual novo horário?\nExemplo:\n${prefix}novohorario novo horario`)
-            const lerHorario = JSON.parse(fs.readFileSync('./sinais.json'))
-            lerHorario.horarios = `${q}`
-            fs.writeFileSync('./sinais.json', JSON.stringify(lerHorario))
-            await client.sendMessage(from, { text: 'novo horário adicionado com sucesso!' })
-            break
+         
 
 
           case "horariosgp":
@@ -1520,10 +1475,10 @@ ${vencedores.map(v => v.tag).join('\n')}
             }
             var yd = membros(from, groupMembers)
 
-            const horariosgp = JSON.parse(fs.readFileSync('./sinais.json'))
+            const horariosgp = lerBv.grupos[from].msgH
 
-            if (horariosgp && horariosgp.horarios) {
-              const mensagemHorarios = horariosgp.horarios
+            if (horariosgp !== false) {
+              const mensagemHorarios = horariosgp
               client.sendMessage(from, { text: mensagemHorarios, mentions: yd }, { quoted: info })
             }
             break
@@ -1531,11 +1486,11 @@ ${vencedores.map(v => v.tag).join('\n')}
           case "horarios":
             if (!isDigno) return reply(`use ${prefix}registrar no meu pv para de registrar!!`)
             if (!isGroup) return reply(`Apenas em grupos`)
-            const horariosPv = JSON.parse(fs.readFileSync('./sinais.json'))
-            if (horariosPv && horariosPv.horarios) {
-              const mensagemHorariosPv = horariosPv.horarios
+            const horariosPv = lerBv.grupos[from].msgH
+            if (horariosPv !== false) {
+              const mensagemHorariosPv = horariosPv
               client.sendMessage(from, { text: `enviando os sinais atualizados no seu pv!!` })
-              client.sendMessage(sender, { text: mensagemHorariosPv, mentions: yd }, { quoted: info })
+              client.sendMessage(sender, { text: mensagemHorariosPv }, { quoted: info })
             }
             break
 
@@ -1568,11 +1523,11 @@ ${vencedores.map(v => v.tag).join('\n')}
 
 
               }
+              
+              const dbr = lerBv.grupos[from].msgR
 
-              const dbr = JSON.parse(fs.readFileSync(`./sinais.json`))
 
-
-              const msgRegister = `${dbr.msgregistro}`
+              const msgRegister = `${dbr}`
 
               await client.sendMessage(from, { text: msgRegister })
 
@@ -1790,15 +1745,7 @@ Obs: preencha as informações que você ultilizou no cadastro da plataforma!�
 
             break
 
-          case "textdb":
-            if (!isOwner) return reply(`Apenas dono`)
-            if (!q) return reply(`Cadê a mensagem de registro?`)
-            const textdb = JSON.parse(fs.readFileSync(`./sinais.json`))
-            textdb.msgregistro = `${q}`
-
-            fs.writeFileSync(`./sinais.json`, JSON.stringify(textdb))
-            await client.sendMessage(from, { text: `Mensagem de registro alterada com sucesso!!` }, { quoted: info })
-            break
+         
 
 
           case "rgrupo":
@@ -1811,11 +1758,11 @@ Obs: preencha as informações que você ultilizou no cadastro da plataforma!�
                 let novoGp = from
                 lerBv.grupos[novoGp] = {
                   key: keyGp,
-                  msgBv: "msgBv",
-                  msgS: "msgS",
-                  msgH: "msgH",
-                  msgPv: "msgPv",
-                  msgR: "msgR"
+                  msgBv: false,
+                  msgS: false,
+                  msgH: false,
+                  msgPv: false,
+                  msgR: false
                 }
 
                 fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2), 'utf-8')
@@ -1824,17 +1771,32 @@ Obs: preencha as informações que você ultilizou no cadastro da plataforma!�
 
                 await client.sendMessage(from, { text: `Grupo cadastrado, a sua key para gerenciar o grupo foi mandada no seu pv!!` }, { quoted: info })
                 delay(3000)
-                await client.sendMessage(sender, { text: `Aqui está a sua key: ${keyy}` }, { quoted: info })
+                await client.sendMessage(sender, { text: `Aqui está a sua key` }, { quoted: info })
+                delay(5000)
+                await client.sendMessage(sender, {text:`${keyy}`})
               }
             }
             if (q === "off") {
-              if (lerBv.grupos[from]) {
+              if (lerBv.grupos[from] && lerUser.usuarios[sender]) {
                 delete lerBv.grupos[from]
-                delay(2000)
+                delete lerUser.usuarios[sender]
+                delay(4000)
+                fs.writeFileSync('./registros/db/users.json', JSON.stringify(lerUser, null, 2))
                 fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2), 'utf-8')
                 await client.sendMessage(from, { text: `Cadastro excluido com sucesso!!` })
 
-              } else {
+              } else if(lerBv.grupos[from] && !lerUser.usuarios[sender]) {
+                delete lerBv.grupos[from]
+                delay(4000)
+                fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2), 'utf-8')
+                await client.sendMessage(from, { text: `Cadastro excluido com sucesso!!` })
+              } else if(!lerBv.grupos[from] && lerUser.usuarios[sender]) {
+                delete lerUser.usuarios[sender]
+                delay(4000)
+                fs.writeFileSync('./registros/db/users.json', JSON.stringify(lerUser, null, 2), 'utf-8')
+                await client.sendMessage(from, { text: `Cadastro excluido com sucesso!!` })
+              }
+               else {
                 client.sendMessage(from, { text: `Nenhum grupo cadastrado com essa key.` })
               }
             }
@@ -1907,10 +1869,13 @@ _Membros:_ *${grupoAluguel.participants.length}*`
           case "msgbv":
             if(!isUser) return reply(`Key não registrada.`)
             if(!q) return reply(`Cadê a nova mensagem?`)
-            const novaMsgBv = `${q}`
+            const false1 = false
+            const true1 = `${q}`
+            const verific = q !== "false" ? true1 : false1
+            
             const keyUser = lerUser.usuarios[sender].grupoId
             if(lerBv.grupos.hasOwnProperty(keyUser)) {
-              lerBv.grupos[keyUser].msgBv = novaMsgBv
+              lerBv.grupos[keyUser].msgBv = verific
               fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2))
               await client.sendMessage(from,{text:`Mensagem de boas vindas alterada com sucesso!!`})
             }
@@ -1920,10 +1885,12 @@ _Membros:_ *${grupoAluguel.participants.length}*`
           case "msgs": 
           if(!isUser) return reply(`Key não registrada.`)
             if(!q) return reply(`Cadê a nova mensagem?`)
-            const novaMsgS = `${q}`
+            const false5 = false
+            const true5 = `${q}`
+            const verificS = q !== "false" ? true5 : false5
             const keyUserS = lerUser.usuarios[sender].grupoId
             if(lerBv.grupos.hasOwnProperty(keyUserS)) {
-              lerBv.grupos[keyUserS].msgS = novaMsgS
+              lerBv.grupos[keyUserS].msgS = verificS
               fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2))
               await client.sendMessage(from,{text:`Mensagem dos sianis alterada com sucesso!!`})
             }
@@ -1932,10 +1899,12 @@ _Membros:_ *${grupoAluguel.participants.length}*`
           case "msgh":
             if(!isUser) return reply(`Key não registrada.`)
             if(!q) return reply(`Cadê a nova mensagem?`)
-            const novaMsgH = `${q}`
+            const false4 = false
+            const true4 = `${q}`
+            const verificH = q !== "false" ? true4 : false4
             const keyUserH = lerUser.usuarios[sender].grupoId
             if(lerBv.grupos.hasOwnProperty(keyUserH)) {
-              lerBv.grupos[keyUserH].msgH = novaMsgH
+              lerBv.grupos[keyUserH].msgH = verificH
               fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2))
               await client.sendMessage(from,{text:`Mensagem dos horários alterada com sucesso!!`})
             }
@@ -1944,10 +1913,12 @@ _Membros:_ *${grupoAluguel.participants.length}*`
           case "msgpv":
             if(!isUser) return reply(`Key não registrada.`)
             if(!q) return reply(`Cadê a nova mensagem?`)
-            const novaMsgPv = `${q}`
+            const false2 = false
+            const true2 = `${q}`
+            const verificPv = q !== "false" ? true2 : false2
             const keyUserPv = lerUser.usuarios[sender].grupoId
             if(lerBv.grupos.hasOwnProperty(keyUserPv)) {
-              lerBv.grupos[keyUserPv].msgPv = novaMsgPv
+              lerBv.grupos[keyUserPv].msgPv = verificPv
               fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2))
               await client.sendMessage(from,{text:`Mensagem de bem-vindo no pv alterada com sucesso!!`})
             }
@@ -1956,10 +1927,12 @@ _Membros:_ *${grupoAluguel.participants.length}*`
           case "msgr":
             if(!isUser) return reply(`Key não registrada.`)
             if(!q) return reply(`Cadê a nova mensagem?`)
-            const novaMsgR = `${q}`
+            const false3 = false
+            const true3 = `${q}`
+            const verificR = q !== "false" ? true3 : false3
             const keyUserR = lerUser.usuarios[sender].grupoId
-            if(lerBv.grupos.hasOwnProperty(keyUserH)) {
-              lerBv.grupos[keyUserR].msgR = novaMsgR
+            if(lerBv.grupos.hasOwnProperty(keyUserR)) {
+              lerBv.grupos[keyUserR].msgR = verificR
               fs.writeFileSync('./registros/db/grupos.json', JSON.stringify(lerBv, null, 2))
               await client.sendMessage(from,{text:`Mensagem de registro alterada com sucesso!!`})
             }

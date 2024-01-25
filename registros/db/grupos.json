@@ -1,5 +1,20 @@
 {
   "grupos": {
-    
+    "120363203316451335@g.us": {
+      "key": "WlvMEl",
+      "msgBv": false,
+      "msgS": false,
+      "msgH": false,
+      "msgPv": false,
+      "msgR": false
+    },
+    "120363225422042586@g.us": {
+      "key": "SpGfIr",
+      "msgBv": false,
+      "msgS": false,
+      "msgH": "teste",
+      "msgPv": false,
+      "msgR": false
+    }
   }
 }
