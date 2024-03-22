@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "stabil-bot",
+  "private_key_id": "ee524b5e4b6f3ffdc3a90311a92310c9f3f9480a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDIUGBe9YghjuRB\nYPZO/ymW49LAQWlfeUKFyJz+Cz+beBe172wijyr6Q32SOc9Q90YDYebHbxhIf2hw\nbZNedOMPvriDMwhfatP1zEzlFApOk9/E/aPnP4aw5dLv2IolleTs8cDRVpD0vidr\nIb9qRJLkjUi/e/ejXpNRdb5iJEyfEZ06MKwk5G14UHrd+ZG85M1SFIVElSf7hdyP\nMbK/i1gUavNp4NikIcjzGebwbVm1JwJn6/vNpDq+a4Q0hyLqIHQNlKcJKs57KOFi\nX0zPryewI78GJ8jooEtFPiKubmUBX8V9qK5Xzlj+Vnnjh6ThTg0QXsANlqQ1MWXr\nwY4p4OKRAgMBAAECggEAL1U+0HF4T2Wybfh5e0U0EKGY5TEPsy22GGLFJgqGZzhD\ncgw3IxttbmGQRINAh8NGWfpCTBHmTQs+JILf9cvs84V/mBDxA4r8tvIloWPQ46xx\njdzZZAVQ0HAeHeqvCh6XT534j/7ClfJw4hHBZ1z40OTJseWbKJFqgi8uY4ZsTJGz\n1B7suAdcqz/L0CaX/kdFoDoV9iX0qZDhayrvl5EPOxWjWj7+wLWuW2NCXxlZ5wtD\njp1BaTJZ9wItsEjX8u2kTOqBA1x5QULVnq1jFHsJig7Jnv0gqDF7ZQmlY8YKrABb\nmEHCrh0easW9mBuDgH5IC6PUYOOZOky9YQwFyNfgIQKBgQDsjQEe8Lufczhv2A4L\nWCFzg9rAHyOsKKhovqKI2920oqPPbLYgluRpJJDjvvedHzz3yE2P3RqVsx92fEnB\nZA9fqTWlXjDVrYjszBwcaq0XWuIKmY/oTFhJRVTrCjGFM4VRGYyPHVUuTI+Ig544\nI1csohbWQfaeTZQyNzkVp2ycdQKBgQDYyKXd9XBwWEVBJY3CJ88F9+OCBrreQe2i\n9eFo3UlZDWMN58UaQEfN4s8CS2sS+GuJL/Rh+v0+ZZZdn4iX6icLsAEDF36sTUa0\nyP8E2puriqWGTmUqe4OxFoqWJIc5PIc+dOIMpkrODmGq44OIpXgKno29evQygdly\nS5qTNZ+aLQKBgHXVT4egF3Y4KRbdozFXd2JZfjBR0q1Bm5KB0+kkzO3cTolW9+qH\n/8O4aUxppmLoWrB7YNeXJlUH41ZcV0k0lMvsOELmBqGKTjjW+/HT2eFWbl8lW6A1\n14y4MrLaYwydO33IolHwJKxpit5P4hLI1/Xt0D5uoXD96CKTi6YTvnC5AoGBALTs\ngMIGHZklkmcUmIL6BmXMxSu3wi3MiDABVebXCGgyLAFm9bE7BLJoIKyhlPN4MQeF\n5kf/2WtCDYSFqNJgscWnVrDl4uqac/Bd77h1WoaIaCz3MKeL/hTF41P7mH/EbHtL\nwX0dLEFc71ZYG2bn8o+qVFFXVIbyqDAjuRYzIsjhAoGAA6VV5l8BDqCm7ckYpSF9\nzhBHZP8d35Vz+miioSG73TNvFmEBrXGPMX7Jo7A5DOZhXq6G3rrSyZbYWabuh3Nb\nX9JkzoEMsOcurWEK2KCLMHjJ/YWJrQBwtgf3gEceM/np8bD8CCrfTPuXdXaBZmhv\n1vphFSQOaD0iTjodBcyqrPc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "stabilcallcenter@stabil-bot.iam.gserviceaccount.com",
+  "client_id": "101295999406690718764",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/stabilcallcenter%40stabil-bot.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

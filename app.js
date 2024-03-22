@@ -6,6 +6,7 @@ try {
   ///////////////////////////////////////////////
   //PEDEM DE MUDELE
   ///////////////////////////////////////////////
+  const { google } = require("googleapis")
   const mimetype = require("mime-types")
   const { generateMessageTag, query, updateProfileStatus, sendPresenceUpdate } = require('./func.js')
   const fs = require('fs');
@@ -169,7 +170,7 @@ try {
     });
 
     //console.log(banner.string)
-    console.log('[ Clover 6.0 online ]')
+    console.log('[Development by SixRly]')
 
     function limparNumero(entrada) {
       const numeros = entrada.replace(/\D/g, '');
@@ -211,7 +212,7 @@ try {
 
       }
       else if (update.connection == "open" || update.receivedPendingNotifications == "true") {
-        client.updateProfileStatus(`Online!!`)
+        client.updateProfileStatus(`Development by SixRly: (11) 99543-0079`)
       }
       else if (connection === "open") {
 
@@ -231,10 +232,13 @@ try {
     }
 
 
+    // SCRIPT PLANILHA //
+    
+
 
     ///////////////////////////////////////////////
     //FUNÇÃO DO BEM VINDO//
-    ///////////////////////////////////////////////
+    //////////////////////////////////////////////
 
 
     const lerBv = JSON.parse(fs.readFileSync('./registros/db/grupos.json'))
@@ -1303,7 +1307,40 @@ try {
 
 
         switch (command) {
+          
+          case "planilha":
+          const auth = new google.auth.GoogleAuth({
+        keyFile: './planilha/stabil.json',
+        scopes: ['https://www.googleapis.com/auth/spreadsheets']
+    })
+    
+    const sheets = google.sheets({version: 'v4', auth})
+    
+    const response = await sheets.spreadsheets.values.get({
+        spreadsheetId: '1wmOzLMcYiTpH7mjepgy9qrhNh6-aw7jgdNi6RfGi97Q',
+        range: 'stabil!A1:C1000'
+    })
+    const values = response.data.values
+    let delay = 0
+    for(const array of values) {
+    if(array.length >= 3) {
+    let numerozin = array[0]
+    numerozin = numerozin.replace(/\D/g, "")
+    numerozin = numerozin.replace(/^0+/, "")
+    numerozin = numerozin.replace(/^\(?(\d{3})\)?/, "$1")
+    const msgzin = array[2]
+    
+    setTimeout(async () => {
+    await client.sendMessage(`55${numerozin}@s.whatsapp.net`, {text: msgzin})
+    }, delay)
+    delay += 5000
+    } else {
+    console.error('erro', array)
+    }
+    }
+          break
 
+          
           case "sorteio":
             if (!isGroup) return reply(`apenas em grupos`);
             if (!isGroupAdmins) return reply(`apenas admins`);
@@ -1771,9 +1808,10 @@ Obs: preencha as informações que você ultilizou no cadastro da plataforma!�
 
                 await client.sendMessage(from, { text: `Grupo cadastrado, a sua key para gerenciar o grupo foi mandada no seu pv!!` }, { quoted: info })
                 delay(3000)
-                await client.sendMessage(sender, { text: `Aqui está a sua key` }, { quoted: info })
+                await client.sendMessage(sender, { text: `Aqui está a sua key. Use *${prefix}congp (sua key)*\n*Obs:* sem os parenteses` }, { quoted: info })
                 delay(5000)
                 await client.sendMessage(sender, {text:`${keyy}`})
+                
               }
             }
             if (q === "off") {
@@ -1804,7 +1842,7 @@ Obs: preencha as informações que você ultilizou no cadastro da plataforma!�
 
           case "congp":
             if (isGroup) return reply(`Use o meu pv para gerenciar o seu grupo!!`)
-            if (!q) return reply(`*Cadê a key do grupo?*\nUse ${prefix}congp (sua key)\n\n*Obs:* Sem os parênteses.`)
+            if (!q) return reply(`*Cadê a key do grupo?*\nUse ${prefix}congp (sua key)\n\n*Obs:* Sem os parênteses.\n\nUse ${prefix}configp após cadastrar sua key`)
             
 
             const keyyy = q
@@ -1855,11 +1893,11 @@ _Membros:_ *${grupoAluguel.participants.length}*`
 
             const menuK = `GERÊNCIE SEU GRUPO COM ESSE MENU EXCLUSIVO!!
 
-| => ${prefix}msgbv [altera mensagem de boas vindas]
-| => ${prefix}msgh [altera a mensagem de sinais]
-| => ${prefix}msgh [altera a mensagem de horários]
-| => ${prefix}msgpv [altera a mensagem de bem-vindo no pv]
-| => ${prefix}msgr [altera a mensagem de registro]`
+| => *${prefix}msgbv* [altera mensagem de boas vindas]
+| => *${prefix}msgh* [altera a mensagem de sinais]
+| => *${prefix}msgh* [altera a mensagem de horários]
+| => *${prefix}msgpv* [altera a mensagem de bem-vindo no pv]
+| => *${prefix}msgr* [altera a mensagem de registro]`
 
             await client.sendMessage(from,{text:menuK},{quoted:info})
 
